@@ -1,3 +1,11 @@
+# 📝 2022/07/13
+
+
+[【CSS】background-colorとbackgroundの違い | 開発備忘録＆ふと思ったこと](https://memo.itsysgroup.com/?p=925&amp=1)
+
+
+
+
 # 📝 2022/07/12
 
 ## 参照
