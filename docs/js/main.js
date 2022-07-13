@@ -1,6 +1,5 @@
 'use strict';
 
-
 function setupKey(isSharp, parentNode) {
   const key = document.createElement('span');
   key.style.display = 'inline-block';
@@ -14,7 +13,6 @@ function setupKey(isSharp, parentNode) {
     key.style.backgroundColor = 'white';
   }
   parentNode.appendChild(key);
-  
 }
 
 const octaveKeyPatterns = [
@@ -36,7 +34,7 @@ const pianoKeysWrap = document.createElement('div');
 pianoKeysWrap.style.widtfalse = '100%';
 
 for (const keyPattern of octaveKeyPatterns) {
-  setupKey(keyPattern, pianoKeysWrap)
+  setupKey(keyPattern, pianoKeysWrap);
 }
 
 document.body.appendChild(pianoKeysWrap);
