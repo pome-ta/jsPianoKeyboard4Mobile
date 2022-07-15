@@ -1,16 +1,69 @@
-/*
- * Qwerty Hancock keyboard library v0.10.0
- * The web keyboard for now people.
- * Copyright 2012-20, Stuart Memo
- *
- * Licensed under the MIT License
- * http://opensource.org/licenses/mit-license.php
- *
- * http://stuartmemo.com/qwerty-hancock
- */
+class QwertyHancock {
+  version = '0.0.0';
+  settings = {};
+  mouse_is_down = false;
+  keysDown = {};
+  key_map = {
+    65: 'Cl',
+    87: 'C#l',
+    83: 'Dl',
+    69: 'D#l',
+    68: 'El',
+    70: 'Fl',
+    84: 'F#l',
+    71: 'Gl',
+    89: 'G#l',
+    90: 'G#l',
+    72: 'Al',
+    85: 'A#l',
+    74: 'Bl',
+    75: 'Cu',
+    79: 'C#u',
+    76: 'Du',
+    80: 'D#u',
+    59: 'Eu',
+    186: 'Eu',
+    222: 'Fu',
+    221: 'F#u',
+    220: 'Gu',
+  };
+  keyDownCallback;
+  keyUpCallback;
+
+  constructor(us = {}) {
+    user_settings = us;
+    settings = {
+      id: user_settings.id || 'keyboard',
+      octaves: user_settings.octaves || 3,
+      width: user_settings.width,
+      height: user_settings.height,
+      margin: user_settings.margin || 0,
+      startNote: user_settings.startNote || 'A3',
+      whiteKeyColour: user_settings.whiteKeyColour || '#fff',
+      blackKeyColour: user_settings.blackKeyColour || '#000',
+      activeColour: user_settings.activeColour || 'yellow',
+      borderColour: user_settings.borderColour || '#000',
+      keyboardLayout: user_settings.keyboardLayout || 'en',
+      musicalTyping: user_settings.musicalTyping === false ? false : true,
+    };
+    container = document.getElementById(settings.id);
+
+    if (typeof settings.width === 'undefined') {
+      settings.width = container.offsetWidth;
+    }
+
+    if (typeof settings.height === 'undefined') {
+      settings.height = container.offsetHeight;
+    }
+
+    settings.startOctave = parseInt(settings.startNote.charAt(1), 10);
+    settings.keyOctave = user_settings.keyOctave || settings.startOctave;
+  }
+}
 
 (function () {
   let root = this;
+
   /* In <script> context, `this` is the window.
    * In node context (browserify), `this` is the node global.
    */
@@ -627,4 +680,5 @@
   } else {
     root.QwertyHancock = QwertyHancock;
   }
-})(this);
+  //})(this);
+});

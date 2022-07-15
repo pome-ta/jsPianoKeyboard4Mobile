@@ -14,6 +14,13 @@ fork すりゃいいのだけど、一旦砂場としてここに吐き出し`de
 
 ### `window` からの呼び出し
 
+
+### メモ
+
+> 「color」はアメリカで、「colour」はイギリスで使われています。
+
+[「色」は英語でどのように表現する？| Kimini英会話](https://kimini.online/blog/archives/3050)
+
 # 📝 2022/07/13
 
 [【CSS】background-color と background の違い | 開発備忘録＆ふと思ったこと](https://memo.itsysgroup.com/?p=925&amp=1)
