@@ -2,7 +2,10 @@
 
 ## キーボードレイアウト
 
-マジ鍵盤の必要ないか
+鍵盤の必要ないか？
+
+class 化して、UI　と機能を分ける？
+    - キーボードのレイアウトと、Pad とできたらいいな
 
 ## [stuartmemo/qwerty-hancock: A keyboard for any musical eventuality. Works best with the Web Audio API.](https://github.com/stuartmemo/qwerty-hancock) を改造（？）
 
@@ -14,6 +17,11 @@ fork すりゃいいのだけど、一旦砂場としてここに吐き出し`de
 
 ### `window` からの呼び出し
 
+`this` を`window` としてみる？
+
+### `settings` をclass 化？
+
+個別に関数で管理をする？
 
 ### メモ
 

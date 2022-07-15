@@ -29,96 +29,13 @@ class QwertyHancock {
   };
   keyDownCallback;
   keyUpCallback;
-
-  constructor(us = {}) {
-    user_settings = us;
-    settings = {
-      id: user_settings.id || 'keyboard',
-      octaves: user_settings.octaves || 3,
-      width: user_settings.width,
-      height: user_settings.height,
-      margin: user_settings.margin || 0,
-      startNote: user_settings.startNote || 'A3',
-      whiteKeyColour: user_settings.whiteKeyColour || '#fff',
-      blackKeyColour: user_settings.blackKeyColour || '#000',
-      activeColour: user_settings.activeColour || 'yellow',
-      borderColour: user_settings.borderColour || '#000',
-      keyboardLayout: user_settings.keyboardLayout || 'en',
-      musicalTyping: user_settings.musicalTyping === false ? false : true,
-    };
-    container = document.getElementById(settings.id);
-
-    if (typeof settings.width === 'undefined') {
-      settings.width = container.offsetWidth;
-    }
-
-    if (typeof settings.height === 'undefined') {
-      settings.height = container.offsetHeight;
-    }
-
-    settings.startOctave = parseInt(settings.startNote.charAt(1), 10);
-    settings.keyOctave = user_settings.keyOctave || settings.startOctave;
-  }
-}
-
-(function () {
-  let root = this;
-
-  /* In <script> context, `this` is the window.
-   * In node context (browserify), `this` is the node global.
-   */
-  let globalWindow = typeof global === 'undefined' ? root : root.window;
-  let version = '0.10.0',
-    settings = {},
-    mouse_is_down = false,
-    keysDown = {},
-    key_map = {
-      65: 'Cl',
-      87: 'C#l',
-      83: 'Dl',
-      69: 'D#l',
-      68: 'El',
-      70: 'Fl',
-      84: 'F#l',
-      71: 'Gl',
-      89: 'G#l',
-      90: 'G#l',
-      72: 'Al',
-      85: 'A#l',
-      74: 'Bl',
-      75: 'Cu',
-      79: 'C#u',
-      76: 'Du',
-      80: 'D#u',
-      59: 'Eu',
-      186: 'Eu',
-      222: 'Fu',
-      221: 'F#u',
-      220: 'Gu',
-    },
-    keyDownCallback,
-    keyUpCallback;
-
-  /**
-   * Calculate width of white key.
-   * @return {number} Width of a single white key in pixels.
-   */
-  let getWhiteKeyWidth = function (number_of_white_keys) {
-    return Math.floor(
-      (settings.width - number_of_white_keys) / number_of_white_keys
-    );
-  };
-
   /**
    * Merge user settings with defaults.
    * @param  {object} user_settings
    */
-  let init = function (us) {
-    let container;
-
-    user_settings = us || {};
-
-    settings = {
+  constructor(us = {}) {
+    let user_settings = us;
+    this.settings = {
       id: user_settings.id || 'keyboard',
       octaves: user_settings.octaves || 3,
       width: user_settings.width,
@@ -132,54 +49,67 @@ class QwertyHancock {
       keyboardLayout: user_settings.keyboardLayout || 'en',
       musicalTyping: user_settings.musicalTyping === false ? false : true,
     };
+    let container = document.getElementById(settings.id);
 
-    container = document.getElementById(settings.id);
-
-    if (typeof settings.width === 'undefined') {
-      settings.width = container.offsetWidth;
+    if (typeof this.settings.width === 'undefined') {
+      this.settings.width = container.offsetWidth;
     }
 
-    if (typeof settings.height === 'undefined') {
-      settings.height = container.offsetHeight;
+    if (typeof this.settings.height === 'undefined') {
+      this.settings.height = container.offsetHeight;
     }
 
-    settings.startOctave = parseInt(settings.startNote.charAt(1), 10);
-    settings.keyOctave = user_settings.keyOctave || settings.startOctave;
+    this.settings.startOctave = parseInt(this.settings.startNote.charAt(1), 10);
+    this.settings.keyOctave =
+      user_settings.keyOctave || this.settings.startOctave;
 
     // Add getters and setters
+    // xxx: `get` `set` で書く
     this.setKeyOctave = function (octave) {
-      settings.keyOctave = octave;
-      return settings.keyOctave;
+      this.settings.keyOctave = octave;
+      return this.settings.keyOctave;
     };
     this.getKeyOctave = function () {
-      return settings.keyOctave;
+      return this.settings.keyOctave;
     };
     this.keyOctaveUp = function () {
-      settings.keyOctave++;
-      return settings.keyOctave;
+      // xxx: インクリメントでそのまま返す？
+      this.settings.keyOctave++;
+      return this.settings.keyOctave;
     };
     this.keyOctaveDown = function () {
-      settings.keyOctave--;
-      return settings.keyOctave;
+      // xxx: デクリメントでそのまま返す？
+      this.settings.keyOctave--;
+      return this.settings.keyOctave;
     };
     this.getKeyMap = function () {
-      return key_map;
+      return this.key_map;
     };
     this.setKeyMap = function (newKeyMap) {
-      key_map = newKeyMap;
-      return key_map;
+      this.key_map = newKeyMap;
+
+      return this.key_map;
     };
 
     createKeyboard();
     addListeners.call(this, container);
-  };
+  }
+  /**
+   * Calculate width of white key.
+   * @return {number} Width of a single white key in pixels.
+   */
+  getWhiteKeyWidth(number_of_white_keys) {
+    return Math.floor(
+      (this.settings.width - number_of_white_keys) / number_of_white_keys
+    );
+  }
 
   /**
    * Get frequency of a given note.
    * @param  {string} note Musical note to convert into hertz.
    * @return {number} Frequency of note in hertz.
    */
-  let getFrequencyOfNote = function (note) {
+  getFrequencyOfNote(note) {
     let notes = [
         'A',
         'A#',
@@ -212,51 +142,51 @@ class QwertyHancock {
     }
 
     return 440 * Math.pow(2, (key_number - 49) / 12);
-  };
+  }
 
   /**
    * Lighten up man. Change the colour of a key.
    * @param  {element} el DOM element to change colour of.
    */
-  let lightenUp = function lightenUp(el) {
+  lightenUp(el) {
     if (el !== null || typeof el === undefined) {
       el.style.backgroundColor = settings.activeColour;
     }
-  };
+  }
 
   /**
    * Revert key to original colour.
    * @param  {element} el DOM element to change colour of.
    */
-  let darkenDown = function darkenDown(el) {
+  darkenDown(el) {
     if (el !== null) {
       if (el.getAttribute('data-note-type') === 'white') {
-        el.style.backgroundColor = settings.whiteKeyColour;
+        el.style.backgroundColor = this.settings.whiteKeyColour;
       } else {
-        el.style.backgroundColor = settings.blackKeyColour;
+        el.style.backgroundColor = this.settings.blackKeyColour;
       }
     }
-  };
+  }
 
   /**
    * Order notes into order defined by starting key in settings.
    * @param {array} notes_to_order Notes to be ordered.
    * @return {array{ ordered_notes Ordered notes.
    */
-  let orderNotes = function (notes_to_order) {
+  orderNotes(notes_to_order) {
     let i,
       keyOffset = 0,
       number_of_notes_to_order = notes_to_order.length,
       ordered_notes = [];
 
-    for (i = 0; i < number_of_notes_to_order; i++) {
-      if (settings.startNote.charAt(0) === notes_to_order[i]) {
+    for (let i = 0; i < number_of_notes_to_order; i++) {
+      if (this.settings.startNote.charAt(0) === notes_to_order[i]) {
         keyOffset = i;
         break;
       }
     }
 
-    for (i = 0; i < number_of_notes_to_order; i++) {
+    for (let i = 0; i < number_of_notes_to_order; i++) {
       if (i + keyOffset > number_of_notes_to_order - 1) {
         ordered_notes[i] =
           notes_to_order[i + keyOffset - number_of_notes_to_order];
@@ -266,17 +196,17 @@ class QwertyHancock {
     }
 
     return ordered_notes;
-  };
+  }
 
   /**
    * Add styling to individual white key.
    * @param  {element} el White key DOM element.
    */
-  let styleWhiteKey = function (key) {
-    key.el.style.backgroundColor = settings.whiteKeyColour;
-    key.el.style.border = '1px solid ' + settings.borderColour;
+  styleWhiteKey(key) {
+    key.el.style.backgroundColor = this.settings.whiteKeyColour;
+    key.el.style.border = '1px solid ' + this.settings.borderColour;
     key.el.style.borderRight = 0;
-    key.el.style.height = settings.height + 'px';
+    key.el.style.height = this.settings.height + 'px';
     key.el.style.width = key.width + 'px';
     key.el.style.borderRadius = '0 0 5px 5px';
     key.el.style.position = 'relative';
@@ -284,60 +214,60 @@ class QwertyHancock {
     key.el.style.boxSizing = 'content-box';
 
     if (key.noteNumber === getTotalWhiteKeys() - 1) {
-      key.el.style.border = '1px solid ' + settings.borderColour;
+      key.el.style.border = '1px solid ' + this.settings.borderColour;
     }
-  };
+  }
 
   /**
    * Add styling to individual black key.
    * @param  {element} el Black key DOM element.
    */
-  let styleBlackKey = function (key) {
+  styleBlackKey(key) {
     let white_key_width = getWhiteKeyWidth(getTotalWhiteKeys()),
       black_key_width = Math.floor(white_key_width / 2);
 
-    key.el.style.backgroundColor = settings.blackKeyColour;
-    key.el.style.border = '1px solid ' + settings.borderColour;
+    key.el.style.backgroundColor = this.settings.blackKeyColour;
+    key.el.style.border = '1px solid ' + this.settings.borderColour;
     key.el.style.position = 'absolute';
     key.el.style.left =
       Math.floor(
         (white_key_width + 1) * (key.noteNumber + 1) - black_key_width / 2
       ) + 'px';
     key.el.style.width = black_key_width + 'px';
-    key.el.style.height = settings.height / 1.5 + 'px';
+    key.el.style.height = this.settings.height / 1.5 + 'px';
     key.el.style.borderRadius = '0 0 3px 3px';
     key.el.style.zIndex = '2';
     key.el.style.boxSizing = 'content-box';
-  };
+  }
 
   /**
    * Add styling to individual key on keyboard.
    * @param  {object} key Element of key.
    */
-  let styleKey = function (key) {
+  styleKey(key) {
     key.el.style.display = 'inline-block';
     key.el.style['-webkit-user-select'] = 'none';
 
     if (key.colour === 'white') {
-      styleWhiteKey(key);
+      this.styleWhiteKey(key);
     } else {
-      styleBlackKey(key);
+      this.styleBlackKey(key);
     }
-  };
+  }
 
   /**
    * Reset styles on keyboard container and list element.
    * @param {element} keyboard Keyboard container DOM element.
    */
-  let styleKeyboard = function (keyboard) {
+  styleKeyboard(keyboard) {
     let styleElement = function (el) {
       el.style.cursor = 'default';
       el.style.fontSize = '0px';
-      el.style.height = settings.height + 'px';
+      el.style.height = this.settings.height + 'px';
       el.style.padding = 0;
       el.style.position = 'relative';
       el.style.listStyle = 'none';
-      el.style.margin = settings.margin;
+      el.style.margin = this.settings.margin;
       el.style['-webkit-user-select'] = 'none';
       el.style.boxSizing = 'content-box';
     };
@@ -346,58 +276,58 @@ class QwertyHancock {
     styleElement(keyboard.el);
     keyboard.el.style.width =
       keyboard.totalWhiteKeys *
-        (getWhiteKeyWidth(keyboard.totalWhiteKeys) + 1) +
+        (this.getWhiteKeyWidth(keyboard.totalWhiteKeys) + 1) +
       2 +
       'px';
-  };
+  }
 
   /**
    * Call user's mouseDown event.
    */
-  let mouseDown = function (element, callback) {
+  mouseDown(element, callback) {
     if (element.tagName.toLowerCase() == 'li') {
       mouse_is_down = true;
       lightenUp(element);
       callback(element.title, getFrequencyOfNote(element.title));
     }
-  };
+  }
 
   /**
    * Call user's mouseUp event.
    */
-  let mouseUp = function (element, callback) {
+  mouseUp(element, callback) {
     if (element.tagName.toLowerCase() == 'li') {
       mouse_is_down = false;
       darkenDown(element);
       callback(element.title, getFrequencyOfNote(element.title));
     }
-  };
+  }
 
   /**
    * Call user's mouseDown if required.
    */
-  let mouseOver = function (element, callback) {
+  mouseOver(element, callback) {
     if (mouse_is_down) {
       lightenUp(element);
       callback(element.title, getFrequencyOfNote(element.title));
     }
-  };
+  }
 
   /**
    * Call user's mouseUp if required.
    */
-  let mouseOut = function (element, callback) {
+  mouseOut(element, callback) {
     if (mouse_is_down) {
       darkenDown(element);
       callback(element.title, getFrequencyOfNote(element.title));
     }
-  };
+  }
 
   /**
    * Create key DOM element.
    * @return {object} Key DOM element.
    */
-  let createKey = function (key) {
+  createKey(key) {
     key.el = document.createElement('li');
     key.el.id = key.id;
     key.el.title = key.id;
@@ -406,20 +336,20 @@ class QwertyHancock {
     styleKey(key);
 
     return key;
-  };
+  }
 
-  let getTotalWhiteKeys = function () {
-    return settings.octaves * 7;
-  };
+  getTotalWhiteKeys() {
+    return this.settings.octaves * 7;
+  }
 
-  let createKeys = function () {
+  createKeys() {
     let that = this,
       i,
       key,
       keys = [],
       note_counter = 0,
-      octave_counter = settings.startOctave,
-      total_white_keys = getTotalWhiteKeys();
+      octave_counter = this.settings.startOctave,
+      total_white_keys = this.getTotalWhiteKeys();
 
     for (i = 0; i < total_white_keys; i++) {
       if (i % this.whiteNotes.length === 0) {
@@ -464,35 +394,35 @@ class QwertyHancock {
       keys: keys,
       totalWhiteKeys: total_white_keys,
     };
-  };
+  }
 
-  let addKeysToKeyboard = function (keyboard) {
+  addKeysToKeyboard(keyboard) {
     keyboard.keys.forEach(function (key) {
       keyboard.el.appendChild(key);
     });
-  };
+  }
 
-  let setKeyPressOffset = function (sorted_white_notes) {
-    settings.keyPressOffset = sorted_white_notes[0] === 'C' ? 0 : 1;
-  };
+  setKeyPressOffset(sorted_white_notes) {
+    this.settings.keyPressOffset = sorted_white_notes[0] === 'C' ? 0 : 1;
+  }
 
-  let createKeyboard = function () {
+  createKeyboard() {
     let keyboard = {
-      container: document.getElementById(settings.id),
+      container: document.getElementById(this.settings.id),
       el: document.createElement('ul'),
       whiteNotes: orderNotes(['C', 'D', 'E', 'F', 'G', 'A', 'B']),
       notesWithSharps: orderNotes(['C', 'D', 'F', 'G', 'A']),
     };
 
-    let keysObj = createKeys.call(keyboard);
+    let keysObj = this.createKeys.call(keyboard);
     keyboard.keys = keysObj.keys;
     keyboard.totalWhiteKeys = keysObj.totalWhiteKeys;
 
-    setKeyPressOffset(keyboard.whiteNotes);
-    styleKeyboard(keyboard);
+    this.setKeyPressOffset(keyboard.whiteNotes);
+    this.styleKeyboard(keyboard);
 
     // Add keys to keyboard, and keyboard to container.
-    addKeysToKeyboard(keyboard);
+    this.addKeysToKeyboard(keyboard);
 
     if (keyboard.container.querySelector('ul')) {
       keyboard.container.replaceChild(
@@ -504,20 +434,23 @@ class QwertyHancock {
     }
 
     return keyboard;
-  };
+  }
 
-  let getKeyPressed = function (keyCode) {
+  getKeyPressed(keyCode) {
     return key_map[keyCode]
-      .replace('l', parseInt(settings.keyOctave, 10) + settings.keyPressOffset)
+      .replace(
+        'l',
+        parseInt(this.settings.keyOctave, 10) + this.settings.keyPressOffset
+      )
       .replace(
         'u',
         (
-          parseInt(settings.keyOctave, 10) +
-          settings.keyPressOffset +
+          parseInt(this.settings.keyOctave, 10) +
+          this.settings.keyPressOffset +
           1
         ).toString()
       );
-  };
+  }
 
   /**
    * Handle a keyboard key being pressed.
@@ -525,17 +458,17 @@ class QwertyHancock {
    * @param {callback} callback The user's noteDown function.
    * @return {boolean} true if it was a key (combo) used by qwerty-hancock
    */
-  let keyboardDown = function (key, callback) {
+  keyboardDown(key, callback) {
     let key_pressed;
 
-    if (key.keyCode in keysDown) {
+    if (key.keyCode in this.keysDown) {
       return false;
     }
 
-    keysDown[key.keyCode] = true;
+    this.keysDown[key.keyCode] = true;
 
-    if (typeof key_map[key.keyCode] !== 'undefined') {
-      key_pressed = getKeyPressed(key.keyCode);
+    if (typeof this.key_map[key.keyCode] !== 'undefined') {
+      key_pressed = this.getKeyPressed(key.keyCode);
 
       // Call user's noteDown function.
       callback(key_pressed, getFrequencyOfNote(key_pressed));
@@ -543,7 +476,7 @@ class QwertyHancock {
       return true;
     }
     return false;
-  };
+  }
 
   /**
    * Handle a keyboard key being released.
@@ -551,34 +484,34 @@ class QwertyHancock {
    * @param {callback} callback The user's noteDown function.
    * @return {boolean} true if it was a key (combo) used by qwerty-hancock
    */
-  let keyboardUp = function (key, callback) {
+  keyboardUp(key, callback) {
     let key_pressed;
 
     delete keysDown[key.keyCode];
 
-    if (typeof key_map[key.keyCode] !== 'undefined') {
-      key_pressed = getKeyPressed(key.keyCode);
+    if (typeof this.key_map[key.keyCode] !== 'undefined') {
+      key_pressed = this.getKeyPressed(key.keyCode);
       // Call user's noteDown function.
       callback(key_pressed, getFrequencyOfNote(key_pressed));
       darkenDown(document.getElementById(key_pressed));
       return true;
     }
     return false;
-  };
+  }
 
   /**
    * Determine whether pressed key is a modifier key or not.
    * @param {KeyboardEvent} The keydown event of a pressed key
    */
-  let isModifierKey = function (key) {
+  isModifierKey(key) {
     return key.ctrlKey || key.metaKey || key.altKey;
-  };
+  }
 
   /**
    * Add event listeners to keyboard.
    * @param {element} keyboard_element
    */
-  let addListeners = function (keyboard_element) {
+  addListeners(keyboard_element) {
     let that = this;
 
     if (settings.musicalTyping) {
@@ -602,83 +535,45 @@ class QwertyHancock {
         }
       });
     }
-
     // Mouse is clicked down on keyboard element.
     keyboard_element.addEventListener('mousedown', function (event) {
-      mouseDown(event.target, that.keyDown);
+      this.mouseDown(event.target, that.keyDown);
     });
 
     // Mouse is released from keyboard element.
     keyboard_element.addEventListener('mouseup', function (event) {
-      mouseUp(event.target, that.keyUp);
+      this.mouseUp(event.target, that.keyUp);
     });
 
     // Mouse is moved over keyboard element.
     keyboard_element.addEventListener('mouseover', function (event) {
-      mouseOver(event.target, that.keyDown);
+      this.mouseOver(event.target, that.keyDown);
     });
 
     // Mouse is moved out of keyvoard element.
     keyboard_element.addEventListener('mouseout', function (event) {
-      mouseOut(event.target, that.keyUp);
+      this.mouseOut(event.target, that.keyUp);
     });
 
     // Device supports touch events.
     if ('ontouchstart' in document.documentElement) {
       keyboard_element.addEventListener('touchstart', function (event) {
-        mouseDown(event.target, that.keyDown);
+        this.mouseDown(event.target, that.keyDown);
       });
 
       keyboard_element.addEventListener('touchend', function (event) {
-        mouseUp(event.target, that.keyUp);
+        this.mouseUp(event.target, that.keyUp);
       });
 
       keyboard_element.addEventListener('touchleave', function (event) {
-        mouseOut(event.target, that.keyUp);
+        this.mouseOut(event.target, that.keyUp);
       });
 
       keyboard_element.addEventListener('touchcancel', function (event) {
-        mouseOut(event.target, that.keyUp);
+        this.mouseOut(event.target, that.keyUp);
       });
     }
-  };
-
-  /**
-   * Qwerty Hancock constructor.
-   * @param {object} settings Optional user settings.
-   */
-  let QwertyHancock = function (settings) {
-    this.version = version;
-
-    this.keyDown = function () {
-      // Placeholder function.
-    };
-
-    this.keyUp = function () {
-      // Placeholder function.
-    };
-
-    this.setKeyOctave = function (octave) {
-      // Placeholder function.
-    };
-
-    this.getKeyOctave = function () {};
-    this.keyOctaveUp = function () {};
-    this.keyOctaveDown = function () {};
-
-    this.getKeyMap = function () {};
-    this.setKeyMap = function (newKeyMap) {};
-
-    init.call(this, settings);
-  };
-
-  if (typeof exports !== 'undefined') {
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = QwertyHancock;
-    }
-    exports.QwertyHancock = QwertyHancock;
-  } else {
-    root.QwertyHancock = QwertyHancock;
   }
-  //})(this);
-});
+}
+
+const hoge = QwertyHancock();
