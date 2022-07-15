@@ -1,5 +1,7 @@
 'use strict';
 
+import { QwertyHancock } from './js/esmQwertyHancock.js';
+
 function setupKey(isSharp, parentNode) {
   const key = document.createElement('span');
   key.style.display = 'inline-block';
@@ -68,7 +70,8 @@ const settings = {
   musicalTyping: false,
 };
 
-let keyboard = new window.QwertyHancock(settings);
+// let keyboard = new window.QwertyHancock(settings);
+let keyboard = new QwertyHancock(settings);
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const context = new AudioContext();

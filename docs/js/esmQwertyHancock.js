@@ -1,4 +1,4 @@
-class QwertyHancock {
+export class QwertyHancock {
   version = '0.0.0';
   settings = {};
   mouse_is_down = false;
@@ -577,3 +577,4 @@ class QwertyHancock {
 }
 
 const hoge = QwertyHancock();
+console.log(hoge);
