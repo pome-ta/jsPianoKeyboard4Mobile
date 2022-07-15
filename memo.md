@@ -8,6 +8,16 @@
 
 fork すりゃいいのだけど、一旦砂場としてここに吐き出し`dev.js`
 
+
+### `dev.js` を参照
+
+`esmQwertyHancock.js` にて、構築
+
+
+### `window` からの呼び出し
+
+
+
 # 📝 2022/07/13
 
 [【CSS】background-color と background の違い | 開発備忘録＆ふと思ったこと](https://memo.itsysgroup.com/?p=925&amp=1)
