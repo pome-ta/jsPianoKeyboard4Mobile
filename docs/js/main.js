@@ -9,9 +9,8 @@ function setupKey(isSharp, parentNode) {
     key.style.backgroundColor = 'black';
     key.style.height = '5rem';
     key.style.marginLeft = '-4%';
-    key.style.position='absolute';
+    key.style.position = 'absolute';
     key.style.width = '8%';
-    
   } else {
     key.style.backgroundColor = 'white';
     key.style.width = 'calc(100% / 8)';
@@ -49,12 +48,9 @@ const synth = document.createElement('div');
 const keyboardDiv = document.createElement('div');
 keyboardDiv.id = 'keyboard';
 
-
 synth.classList.add('synth');
 synth.appendChild(keyboardDiv);
 document.body.appendChild(synth);
-
-
 
 const keyboardWidth = document.querySelector('.synth').clientWidth;
 
@@ -69,28 +65,19 @@ const settings = {
   borderColour: '#000',
   activeColour: 'maroon',
   octaves: 2,
-  musicalTyping: false
-}
+  musicalTyping: false,
+};
 
 let keyboard = new window.QwertyHancock(settings);
-
-
-
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const context = new AudioContext();
 
 const masterGain = context.createGain();
 
-
 masterGain.gain.value = 0.5;
 
 masterGain.connect(context.destination);
-
-
-// xxx: アナライザが先かマスターが先か
-//analyzeNode.connect(masterGain);
-//masterGain.connect(context.destination);
 
 let nodes = [];
 keyboard.keyDown = (note, frequency) => {
@@ -100,15 +87,13 @@ keyboard.keyDown = (note, frequency) => {
   //oscillator.type = 'sawtooth';
   //oscillator.type = 'triangle';
   oscillator.frequency.value = frequency;
-  
+
   //oscillator.connect(analyzeNode);
   oscillator.connect(masterGain);
   oscillator.start(0);
-  
+
   nodes.push(oscillator);
 };
-
-
 
 keyboard.keyUp = (note, frequency) => {
   const newNodes = [];
