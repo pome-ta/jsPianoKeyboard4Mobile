@@ -10,12 +10,12 @@
  */
 
 (function () {
-  var root = this;
+  let root = this;
   /* In <script> context, `this` is the window.
    * In node context (browserify), `this` is the node global.
    */
-  var globalWindow = typeof global === 'undefined' ? root : root.window;
-  var version = '0.10.0',
+  let globalWindow = typeof global === 'undefined' ? root : root.window;
+  let version = '0.10.0',
     settings = {},
     mouse_is_down = false,
     keysDown = {},
@@ -50,7 +50,7 @@
    * Calculate width of white key.
    * @return {number} Width of a single white key in pixels.
    */
-  var getWhiteKeyWidth = function (number_of_white_keys) {
+  let getWhiteKeyWidth = function (number_of_white_keys) {
     return Math.floor(
       (settings.width - number_of_white_keys) / number_of_white_keys
     );
@@ -60,8 +60,8 @@
    * Merge user settings with defaults.
    * @param  {object} user_settings
    */
-  var init = function (us) {
-    var container;
+  let init = function (us) {
+    let container;
 
     user_settings = us || {};
 
@@ -126,8 +126,8 @@
    * @param  {string} note Musical note to convert into hertz.
    * @return {number} Frequency of note in hertz.
    */
-  var getFrequencyOfNote = function (note) {
-    var notes = [
+  let getFrequencyOfNote = function (note) {
+    let notes = [
         'A',
         'A#',
         'B',
@@ -165,7 +165,7 @@
    * Lighten up man. Change the colour of a key.
    * @param  {element} el DOM element to change colour of.
    */
-  var lightenUp = function lightenUp(el) {
+  let lightenUp = function lightenUp(el) {
     if (el !== null || typeof el === undefined) {
       el.style.backgroundColor = settings.activeColour;
     }
@@ -175,7 +175,7 @@
    * Revert key to original colour.
    * @param  {element} el DOM element to change colour of.
    */
-  var darkenDown = function darkenDown(el) {
+  let darkenDown = function darkenDown(el) {
     if (el !== null) {
       if (el.getAttribute('data-note-type') === 'white') {
         el.style.backgroundColor = settings.whiteKeyColour;
@@ -190,8 +190,8 @@
    * @param {array} notes_to_order Notes to be ordered.
    * @return {array{ ordered_notes Ordered notes.
    */
-  var orderNotes = function (notes_to_order) {
-    var i,
+  let orderNotes = function (notes_to_order) {
+    let i,
       keyOffset = 0,
       number_of_notes_to_order = notes_to_order.length,
       ordered_notes = [];
@@ -219,7 +219,7 @@
    * Add styling to individual white key.
    * @param  {element} el White key DOM element.
    */
-  var styleWhiteKey = function (key) {
+  let styleWhiteKey = function (key) {
     key.el.style.backgroundColor = settings.whiteKeyColour;
     key.el.style.border = '1px solid ' + settings.borderColour;
     key.el.style.borderRight = 0;
@@ -239,8 +239,8 @@
    * Add styling to individual black key.
    * @param  {element} el Black key DOM element.
    */
-  var styleBlackKey = function (key) {
-    var white_key_width = getWhiteKeyWidth(getTotalWhiteKeys()),
+  let styleBlackKey = function (key) {
+    let white_key_width = getWhiteKeyWidth(getTotalWhiteKeys()),
       black_key_width = Math.floor(white_key_width / 2);
 
     key.el.style.backgroundColor = settings.blackKeyColour;
@@ -261,7 +261,7 @@
    * Add styling to individual key on keyboard.
    * @param  {object} key Element of key.
    */
-  var styleKey = function (key) {
+  let styleKey = function (key) {
     key.el.style.display = 'inline-block';
     key.el.style['-webkit-user-select'] = 'none';
 
@@ -276,8 +276,8 @@
    * Reset styles on keyboard container and list element.
    * @param {element} keyboard Keyboard container DOM element.
    */
-  var styleKeyboard = function (keyboard) {
-    var styleElement = function (el) {
+  let styleKeyboard = function (keyboard) {
+    let styleElement = function (el) {
       el.style.cursor = 'default';
       el.style.fontSize = '0px';
       el.style.height = settings.height + 'px';
@@ -301,7 +301,7 @@
   /**
    * Call user's mouseDown event.
    */
-  var mouseDown = function (element, callback) {
+  let mouseDown = function (element, callback) {
     if (element.tagName.toLowerCase() == 'li') {
       mouse_is_down = true;
       lightenUp(element);
@@ -312,7 +312,7 @@
   /**
    * Call user's mouseUp event.
    */
-  var mouseUp = function (element, callback) {
+  let mouseUp = function (element, callback) {
     if (element.tagName.toLowerCase() == 'li') {
       mouse_is_down = false;
       darkenDown(element);
@@ -323,7 +323,7 @@
   /**
    * Call user's mouseDown if required.
    */
-  var mouseOver = function (element, callback) {
+  let mouseOver = function (element, callback) {
     if (mouse_is_down) {
       lightenUp(element);
       callback(element.title, getFrequencyOfNote(element.title));
@@ -333,7 +333,7 @@
   /**
    * Call user's mouseUp if required.
    */
-  var mouseOut = function (element, callback) {
+  let mouseOut = function (element, callback) {
     if (mouse_is_down) {
       darkenDown(element);
       callback(element.title, getFrequencyOfNote(element.title));
@@ -344,7 +344,7 @@
    * Create key DOM element.
    * @return {object} Key DOM element.
    */
-  var createKey = function (key) {
+  let createKey = function (key) {
     key.el = document.createElement('li');
     key.el.id = key.id;
     key.el.title = key.id;
@@ -355,12 +355,12 @@
     return key;
   };
 
-  var getTotalWhiteKeys = function () {
+  let getTotalWhiteKeys = function () {
     return settings.octaves * 7;
   };
 
-  var createKeys = function () {
-    var that = this,
+  let createKeys = function () {
+    let that = this,
       i,
       key,
       keys = [],
@@ -413,25 +413,25 @@
     };
   };
 
-  var addKeysToKeyboard = function (keyboard) {
+  let addKeysToKeyboard = function (keyboard) {
     keyboard.keys.forEach(function (key) {
       keyboard.el.appendChild(key);
     });
   };
 
-  var setKeyPressOffset = function (sorted_white_notes) {
+  let setKeyPressOffset = function (sorted_white_notes) {
     settings.keyPressOffset = sorted_white_notes[0] === 'C' ? 0 : 1;
   };
 
-  var createKeyboard = function () {
-    var keyboard = {
+  let createKeyboard = function () {
+    let keyboard = {
       container: document.getElementById(settings.id),
       el: document.createElement('ul'),
       whiteNotes: orderNotes(['C', 'D', 'E', 'F', 'G', 'A', 'B']),
       notesWithSharps: orderNotes(['C', 'D', 'F', 'G', 'A']),
     };
 
-    var keysObj = createKeys.call(keyboard);
+    let keysObj = createKeys.call(keyboard);
     keyboard.keys = keysObj.keys;
     keyboard.totalWhiteKeys = keysObj.totalWhiteKeys;
 
@@ -453,7 +453,7 @@
     return keyboard;
   };
 
-  var getKeyPressed = function (keyCode) {
+  let getKeyPressed = function (keyCode) {
     return key_map[keyCode]
       .replace('l', parseInt(settings.keyOctave, 10) + settings.keyPressOffset)
       .replace(
@@ -472,8 +472,8 @@
    * @param {callback} callback The user's noteDown function.
    * @return {boolean} true if it was a key (combo) used by qwerty-hancock
    */
-  var keyboardDown = function (key, callback) {
-    var key_pressed;
+  let keyboardDown = function (key, callback) {
+    let key_pressed;
 
     if (key.keyCode in keysDown) {
       return false;
@@ -498,8 +498,8 @@
    * @param {callback} callback The user's noteDown function.
    * @return {boolean} true if it was a key (combo) used by qwerty-hancock
    */
-  var keyboardUp = function (key, callback) {
-    var key_pressed;
+  let keyboardUp = function (key, callback) {
+    let key_pressed;
 
     delete keysDown[key.keyCode];
 
@@ -517,7 +517,7 @@
    * Determine whether pressed key is a modifier key or not.
    * @param {KeyboardEvent} The keydown event of a pressed key
    */
-  var isModifierKey = function (key) {
+  let isModifierKey = function (key) {
     return key.ctrlKey || key.metaKey || key.altKey;
   };
 
@@ -525,8 +525,8 @@
    * Add event listeners to keyboard.
    * @param {element} keyboard_element
    */
-  var addListeners = function (keyboard_element) {
-    var that = this;
+  let addListeners = function (keyboard_element) {
+    let that = this;
 
     if (settings.musicalTyping) {
       // Key is pressed down on keyboard.
@@ -594,7 +594,7 @@
    * Qwerty Hancock constructor.
    * @param {object} settings Optional user settings.
    */
-  var QwertyHancock = function (settings) {
+  let QwertyHancock = function (settings) {
     this.version = version;
 
     this.keyDown = function () {
