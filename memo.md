@@ -4,6 +4,10 @@
 
 マジ鍵盤の必要ないか
 
+## [stuartmemo/qwerty-hancock: A keyboard for any musical eventuality. Works best with the Web Audio API.](https://github.com/stuartmemo/qwerty-hancock) を改造（？）
+
+fork すりゃいいのだけど、一旦砂場としてここに吐き出し`dev.js`
+
 # 📝 2022/07/13
 
 [【CSS】background-color と background の違い | 開発備忘録＆ふと思ったこと](https://memo.itsysgroup.com/?p=925&amp=1)
