@@ -1,3 +1,9 @@
+# 📝 2022/07/15
+
+## キーボードレイアウト
+
+マジ鍵盤の必要ないか
+
 # 📝 2022/07/13
 
 [【CSS】background-color と background の違い | 開発備忘録＆ふと思ったこと](https://memo.itsysgroup.com/?p=925&amp=1)
