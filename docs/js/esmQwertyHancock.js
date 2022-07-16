@@ -128,8 +128,7 @@ export class QwertyHancock {
       key_number,
       octave;
 
-    octave =
-      note.length === 3 ? (octave = note.charAt(2)) : (octave = note.charAt(1));
+    octave = note.length === 3 ? note.charAt(2) : note.charAt(1);
 
     key_number = notes.indexOf(note.slice(0, -1));
     // xxx: `key_number` 連続、、、
@@ -156,11 +155,16 @@ export class QwertyHancock {
    */
   darkenDown(el) {
     if (el !== null) {
+      el.style.backgroundColor =
+        el.getAttribute('data-note-type') === 'white'
+          ? this.settings.whiteKeyColour
+          : this.settings.blackKeyColour;
+      /*
       if (el.getAttribute('data-note-type') === 'white') {
         el.style.backgroundColor = this.settings.whiteKeyColour;
       } else {
         el.style.backgroundColor = this.settings.blackKeyColour;
-      }
+      }*/
     }
   }
 
@@ -458,7 +462,7 @@ export class QwertyHancock {
 
     this.keysDown[key.keyCode] = true;
 
-    if (typeof this.key_map[key.keyCode] !== 'undefined') {
+    if (typeof this.key_map[key.keyCode] !== undefined) {
       key_pressed = this.getKeyPressed(key.keyCode);
 
       // Call user's noteDown function.
@@ -480,7 +484,7 @@ export class QwertyHancock {
 
     delete keysDown[key.keyCode];
 
-    if (typeof this.key_map[key.keyCode] !== 'undefined') {
+    if (typeof this.key_map[key.keyCode] !== undefined) {
       key_pressed = this.getKeyPressed(key.keyCode);
       // Call user's noteDown function.
       callback(key_pressed, getFrequencyOfNote(key_pressed));
