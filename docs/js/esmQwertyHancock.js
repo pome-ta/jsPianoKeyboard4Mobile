@@ -49,7 +49,7 @@ export class QwertyHancock {
       keyboardLayout: user_settings.keyboardLayout || 'en',
       musicalTyping: user_settings.musicalTyping === false ? false : true,
     };
-    let container = document.getElementById(settings.id);
+    let container = document.getElementById(this.settings.id);
 
     if (typeof this.settings.width === 'undefined') {
       this.settings.width = container.offsetWidth;
@@ -91,7 +91,7 @@ export class QwertyHancock {
       return this.key_map;
     };
 
-    createKeyboard();
+    this.createKeyboard();
     addListeners.call(this, container);
   }
   /**
@@ -410,11 +410,13 @@ export class QwertyHancock {
     let keyboard = {
       container: document.getElementById(this.settings.id),
       el: document.createElement('ul'),
-      whiteNotes: orderNotes(['C', 'D', 'E', 'F', 'G', 'A', 'B']),
-      notesWithSharps: orderNotes(['C', 'D', 'F', 'G', 'A']),
+      whiteNotes: this.orderNotes(['C', 'D', 'E', 'F', 'G', 'A', 'B']),
+      notesWithSharps: this.orderNotes(['C', 'D', 'F', 'G', 'A']),
     };
+    
 
     let keysObj = this.createKeys.call(keyboard);
+    
     keyboard.keys = keysObj.keys;
     keyboard.totalWhiteKeys = keysObj.totalWhiteKeys;
 
@@ -433,7 +435,9 @@ export class QwertyHancock {
       keyboard.container.appendChild(keyboard.el);
     }
 
+    // xxx: `return` 🤔
     return keyboard;
+    //this.keyboard = keyboard;
   }
 
   getKeyPressed(keyCode) {
@@ -576,5 +580,3 @@ export class QwertyHancock {
   }
 }
 
-const hoge = QwertyHancock();
-console.log(hoge);

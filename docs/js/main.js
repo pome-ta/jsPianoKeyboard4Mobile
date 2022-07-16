@@ -1,6 +1,6 @@
 'use strict';
 
-import { QwertyHancock } from './js/esmQwertyHancock.js';
+import { QwertyHancock } from './esmQwertyHancock.js';
 
 function setupKey(isSharp, parentNode) {
   const key = document.createElement('span');
@@ -56,7 +56,7 @@ document.body.appendChild(synth);
 
 const keyboardWidth = document.querySelector('.synth').clientWidth;
 
-const settings = {
+const mySettings = {
   id: 'keyboard',
   width: `${keyboardWidth}`,
   height: 128,
@@ -70,8 +70,8 @@ const settings = {
   musicalTyping: false,
 };
 
-// let keyboard = new window.QwertyHancock(settings);
-let keyboard = new QwertyHancock(settings);
+let keyboard = new window.QwertyHancock(mySettings);
+//let keyboard = new QwertyHancock(mySettings);
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const context = new AudioContext();

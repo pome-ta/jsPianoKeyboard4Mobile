@@ -1,3 +1,10 @@
+# 📝 2022/07/16
+
+
+[Function.prototype.call() - JavaScript | MDN](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Function/call)
+
+
+
 # 📝 2022/07/15
 
 ## キーボードレイアウト
