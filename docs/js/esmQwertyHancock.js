@@ -1,5 +1,7 @@
 export class QwertyHancock {
   version = '0.0.0';
+
+  // globalWindow = typeof global === 'undefined' ? root : root.window;
   settings = {};
   mouse_is_down = false;
   keysDown = {};
@@ -34,6 +36,7 @@ export class QwertyHancock {
    * @param  {object} user_settings
    */
   constructor(us = {}) {
+    console.log(this);
     let user_settings = us;
     this.settings = {
       id: user_settings.id || 'keyboard',
@@ -92,7 +95,8 @@ export class QwertyHancock {
     };
 
     this.createKeyboard();
-    this.addListeners.call(this, container);
+    // this.addListeners.call(this, container);
+    this.addListeners(container);
   }
   /**
    * Calculate width of white key.
@@ -150,7 +154,7 @@ export class QwertyHancock {
    */
   lightenUp(el) {
     if (el !== null || typeof el === undefined) {
-      el.style.backgroundColor = settings.activeColour;
+      el.style.backgroundColor = this.settings.activeColour;
     }
   }
 
@@ -286,9 +290,9 @@ export class QwertyHancock {
    */
   mouseDown(element, callback) {
     if (element.tagName.toLowerCase() == 'li') {
-      mouse_is_down = true;
-      lightenUp(element);
-      callback(element.title, getFrequencyOfNote(element.title));
+      this.mouse_is_down = true;
+      this.lightenUp(element);
+      callback(element.title, this.getFrequencyOfNote(element.title));
     }
   }
 
@@ -297,9 +301,9 @@ export class QwertyHancock {
    */
   mouseUp(element, callback) {
     if (element.tagName.toLowerCase() == 'li') {
-      mouse_is_down = false;
-      darkenDown(element);
-      callback(element.title, getFrequencyOfNote(element.title));
+      this.mouse_is_down = false;
+      this.darkenDown(element);
+      callback(element.title, this.getFrequencyOfNote(element.title));
     }
   }
 
@@ -307,9 +311,9 @@ export class QwertyHancock {
    * Call user's mouseDown if required.
    */
   mouseOver(element, callback) {
-    if (mouse_is_down) {
-      lightenUp(element);
-      callback(element.title, getFrequencyOfNote(element.title));
+    if (this.mouse_is_down) {
+      this.lightenUp(element);
+      callback(element.title, this.getFrequencyOfNote(element.title));
     }
   }
 
@@ -317,9 +321,9 @@ export class QwertyHancock {
    * Call user's mouseUp if required.
    */
   mouseOut(element, callback) {
-    if (mouse_is_down) {
-      darkenDown(element);
-      callback(element.title, getFrequencyOfNote(element.title));
+    if (this.mouse_is_down) {
+      this.darkenDown(element);
+      callback(element.title, this.getFrequencyOfNote(element.title));
     }
   }
 

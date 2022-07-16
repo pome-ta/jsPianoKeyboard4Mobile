@@ -70,6 +70,8 @@ const mySettings = {
   musicalTyping: false,
 };
 
+console.log(this);
+
 let keyboard;
 // keyboard = new window.QwertyHancock(mySettings);
 keyboard = new QwertyHancock(mySettings);
