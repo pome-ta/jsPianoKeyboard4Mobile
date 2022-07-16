@@ -70,11 +70,9 @@ const mySettings = {
   musicalTyping: false,
 };
 
-console.log(this);
-
 let keyboard;
-// keyboard = new window.QwertyHancock(mySettings);
-keyboard = new QwertyHancock(mySettings);
+keyboard = new window.QwertyHancock(mySettings);
+//keyboard = new QwertyHancock(mySettings);
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const context = new AudioContext();
