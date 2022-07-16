@@ -1,7 +1,5 @@
 export class QwertyHancock {
   version = '0.0.0';
-
-  // globalWindow = typeof global === 'undefined' ? root : root.window;
   settings = {};
   mouse_is_down = false;
   keysDown = {};
@@ -53,11 +51,11 @@ export class QwertyHancock {
     };
     let container = document.getElementById(this.settings.id);
 
-    if (typeof this.settings.width === 'undefined') {
+    if (typeof this.settings.width === undefined) {
       this.settings.width = container.offsetWidth;
     }
 
-    if (typeof this.settings.height === 'undefined') {
+    if (typeof this.settings.height === undefined) {
       this.settings.height = container.offsetHeight;
     }
 
@@ -130,20 +128,15 @@ export class QwertyHancock {
       key_number,
       octave;
 
-    if (note.length === 3) {
-      octave = note.charAt(2);
-    } else {
-      octave = note.charAt(1);
-    }
+    octave =
+      note.length === 3 ? (octave = note.charAt(2)) : (octave = note.charAt(1));
 
     key_number = notes.indexOf(note.slice(0, -1));
-
-    if (key_number < 3) {
-      key_number = key_number + 12 + (octave - 1) * 12 + 1;
-    } else {
-      key_number = key_number + (octave - 1) * 12 + 1;
-    }
-
+    // xxx: `key_number` 連続、、、
+    key_number =
+      key_number < 3
+        ? key_number + 12 + (octave - 1) * 12 + 1
+        : key_number + (octave - 1) * 12 + 1;
     return 440 * Math.pow(2, (key_number - 49) / 12);
   }
 
@@ -226,8 +219,8 @@ export class QwertyHancock {
    * @param  {element} el Black key DOM element.
    */
   styleBlackKey(key) {
-    let white_key_width = this.getWhiteKeyWidth(this.getTotalWhiteKeys()),
-      black_key_width = Math.floor(white_key_width / 2);
+    let white_key_width = this.getWhiteKeyWidth(this.getTotalWhiteKeys());
+    let black_key_width = Math.floor(white_key_width / 2);
 
     key.el.style.backgroundColor = this.settings.blackKeyColour;
     key.el.style.border = '1px solid ' + this.settings.borderColour;
@@ -251,11 +244,7 @@ export class QwertyHancock {
     key.el.style.display = 'inline-block';
     key.el.style['-webkit-user-select'] = 'none';
 
-    if (key.colour === 'white') {
-      this.styleWhiteKey(key);
-    } else {
-      this.styleBlackKey(key);
-    }
+    key.colour === 'white' ? this.styleWhiteKey(key) : this.styleBlackKey(key);
   }
 
   /**
@@ -518,7 +507,7 @@ export class QwertyHancock {
 
     if (this.settings.musicalTyping) {
       // Key is pressed down on keyboard.
-      window.addEventListener('keydown', function (key) {
+      window.addEventListener('keydown', (key) => {
         if (this.isModifierKey(key)) {
           return;
         }
@@ -528,7 +517,7 @@ export class QwertyHancock {
       });
 
       // Key is released on keyboard.
-      window.addEventListener('keyup', function (key) {
+      window.addEventListener('keyup', (key) => {
         if (this.isModifierKey(key)) {
           return;
         }
