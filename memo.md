@@ -1,9 +1,18 @@
 # 📝 2022/07/16
 
+## `createKeys` 関数
 
 [Function.prototype.call() - JavaScript | MDN](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Function/call)
 
+`call` 呼び出しをやめた
 
+`this` と、`that` で分ける必要ある？
+
+## event 関係
+
+`this` やら`that` やら。。。
+
+一つ一つ検証していくか。。。`callback` とかみていくか。。。
 
 # 📝 2022/07/15
 
