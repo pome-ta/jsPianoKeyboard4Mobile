@@ -34,7 +34,7 @@ export class QwertyHancock {
    * @param  {object} user_settings
    */
   constructor(us = {}) {
-    let user_settings = us;
+    const user_settings = us;
     this.settings = {
       id: user_settings.id || 'keyboard',
       octaves: user_settings.octaves || 3,
@@ -49,7 +49,7 @@ export class QwertyHancock {
       keyboardLayout: user_settings.keyboardLayout || 'en',
       musicalTyping: user_settings.musicalTyping === false ? false : true,
     };
-    let container = document.getElementById(this.settings.id);
+    const container = document.getElementById(this.settings.id);
 
     if (typeof this.settings.width === undefined) {
       this.settings.width = container.offsetWidth;
@@ -111,31 +111,26 @@ export class QwertyHancock {
    * @return {number} Frequency of note in hertz.
    */
   getFrequencyOfNote(note) {
-    let notes = [
-        'A',
-        'A#',
-        'B',
-        'C',
-        'C#',
-        'D',
-        'D#',
-        'E',
-        'F',
-        'F#',
-        'G',
-        'G#',
-      ],
-      key_number,
-      octave;
-
-    octave = note.length === 3 ? note.charAt(2) : note.charAt(1);
-
-    key_number = notes.indexOf(note.slice(0, -1));
-    // xxx: `key_number` 連続、、、
-    key_number =
-      key_number < 3
-        ? key_number + 12 + (octave - 1) * 12 + 1
-        : key_number + (octave - 1) * 12 + 1;
+    const notes = [
+      'A',
+      'A#',
+      'B',
+      'C',
+      'C#',
+      'D',
+      'D#',
+      'E',
+      'F',
+      'F#',
+      'G',
+      'G#',
+    ];
+    const octave= note.length === 3 ? note.charAt(2) : note.charAt(1);
+    const noteIndex = notes.indexOf(note.slice(0, -1));
+    const key_number =
+      noteIndex < 3
+        ? noteIndex + 12 + (octave - 1) * 12 + 1
+        : noteIndex + (octave - 1) * 12 + 1;
     return 440 * Math.pow(2, (key_number - 49) / 12);
   }
 
