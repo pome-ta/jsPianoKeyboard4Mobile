@@ -1,5 +1,7 @@
 # 📝 2022/07/17
 
+[pome-ta/qwerty-hancock: A keyboard for any musical eventuality. Works best with the Web Audio API.](https://github.com/pome-ta/qwerty-hancock)
+
 ## test
 
 テストをやっていくために、そもそもでどのような機能でやっているのか確認をする
