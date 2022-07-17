@@ -64,6 +64,41 @@ npx karma start
 `karma-jasmine` ってのもあるけど？
 
 
+### test 内容
+
+``` qh-tests.js
+
+it('Can create keyboard with user specified dimensions', function () {
+    var qh = new QwertyHancock({width: 500, height: 300});
+
+    expect(element.offsetWidth).toBe(500);
+    expect(element.offsetHeight).toBe(300);
+});
+
+it('Keyboard without specified dimensions uses element dimensions', function () {
+    var qh;
+
+    element.style.width = '200px';
+    element.style.height = '100px';
+
+    qh = new QwertyHancock();
+
+    expect(element.querySelector('ul').style.width).toBe(element.style.width);
+    expect(element.querySelector('ul').style.height).toBe(element.style.height);
+});
+
+
+```
+
+`500` で指定しているところが、`1264`
+
+`200px` で指定しているところが、`191px`
+
+
+
+
+
+
 
 ### logs
 
