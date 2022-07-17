@@ -1,5 +1,5 @@
 export class QwertyHancock {
-  version = '0.0.0';
+  version = '0.0.1';
   mouse_is_down = false;
   keysDown = {};
   key_map = {
@@ -64,6 +64,7 @@ export class QwertyHancock {
     // xxx: `startOctave` ありきの書き方
     this.settings.keyOctave =
       user_settings.keyOctave || this.settings.startOctave;
+    //this.settings.keyOctave = 5;
 
     // Add getters and setters
     // xxx: これがメインのメソッドになる？
@@ -77,6 +78,7 @@ export class QwertyHancock {
     };
     this.keyOctaveUp = function () {
       // xxx: インクリメントでそのまま返す？
+      console.log('hi')
       this.settings.keyOctave++;
       return this.settings.keyOctave;
     };
@@ -97,6 +99,7 @@ export class QwertyHancock {
     this.createKeyboard();
     // this.addListeners.call(this, container);
     this.addListeners(container);
+    this.keyOctaveUp()
   }
   /**
    * Calculate width of white key.
@@ -334,7 +337,9 @@ export class QwertyHancock {
     let key;
     let keys = [];
     let note_counter = 0;
-    let octave_counter = this.settings.startOctave;
+    //let octave_counter = this.settings.startOctave;
+    let octave_counter = this.settings.keyOctave;
+    
     let total_white_keys = this.getTotalWhiteKeys();
 
     for (let i = 0; i < total_white_keys; i++) {
