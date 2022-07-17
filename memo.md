@@ -6,6 +6,67 @@
 
 テストをやっていくために、そもそもでどのような機能でやっているのか確認をする
 
+### packages
+
+#### Grunt
+
+現在のversion は、`v1.4.1`
+
+
+[https://gruntjs.com/](https://gruntjs.com/)
+
+タスクランナー
+
+
+
+
+
+`Gruntfile.js` より書いた内容のtask を実行する
+
+例えば
+
+``` console
+npx grunt uglify
+```
+
+
+`npx` しているのは、ローカルでインストールしているため
+
+
+[npxコマンドとは？ 何ができるのか？](https://zenn.dev/ryuu/articles/what-npxcommand)
+
+
+
+#### KARMA
+
+現在のversion は、`v6.4`
+
+
+[https://karma-runner.github.io/latest/index.html](https://karma-runner.github.io/latest/index.html)
+
+
+フロントエンドの単体テストを実行するためのテストランナー
+
+``` console
+npx karma start
+```
+
+これでサーバーが立ち、ローカルホスト先へアクセスするとブラウザで表示されている
+
+`karma.conf.js` がデフォルトで読み込まれている？
+
+今回のリポジトリだと、`karma-conf.js` が発見できた
+
+
+#### Jasmine
+
+
+`karma-jasmine` ってのもあるけど？
+
+
+
+### logs
+
 `debug.log`
 
 ``` .log
