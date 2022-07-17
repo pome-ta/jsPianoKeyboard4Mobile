@@ -10,44 +10,33 @@
 
 #### Grunt
 
-現在のversion は、`v1.4.1`
-
+現在の version は、`v1.4.1`
 
 [https://gruntjs.com/](https://gruntjs.com/)
 
 タスクランナー
 
-
-
-
-
-`Gruntfile.js` より書いた内容のtask を実行する
+`Gruntfile.js` より書いた内容の task を実行する
 
 例えば
 
-``` console
+```console
 npx grunt uglify
 ```
 
-
 `npx` しているのは、ローカルでインストールしているため
 
-
-[npxコマンドとは？ 何ができるのか？](https://zenn.dev/ryuu/articles/what-npxcommand)
-
-
+[npx コマンドとは？ 何ができるのか？](https://zenn.dev/ryuu/articles/what-npxcommand)
 
 #### KARMA
 
-現在のversion は、`v6.4`
-
+現在の version は、`v6.4`
 
 [https://karma-runner.github.io/latest/index.html](https://karma-runner.github.io/latest/index.html)
 
-
 フロントエンドの単体テストを実行するためのテストランナー
 
-``` console
+```console
 npx karma start
 ```
 
@@ -57,16 +46,13 @@ npx karma start
 
 今回のリポジトリだと、`karma-conf.js` が発見できた
 
-
 #### Jasmine
-
 
 `karma-jasmine` ってのもあるけど？
 
-
 ### test 内容
 
-``` qh-tests.js
+```qh-tests.js
 
 it('Can create keyboard with user specified dimensions', function () {
     var qh = new QwertyHancock({width: 500, height: 300});
@@ -94,17 +80,11 @@ it('Keyboard without specified dimensions uses element dimensions', function () 
 
 `200px` で指定しているところが、`191px`
 
-
-
-
-
-
-
 ### logs
 
 `debug.log`
 
-``` .log
+```.log
 0 info it worked if it ends with ok
 1 verbose cli [
 1 verbose cli   '/Users/_*pometa*_/.anyenv/envs/nodenv/versions/14.18.1/bin/node',
@@ -151,7 +131,7 @@ it('Keyboard without specified dimensions uses element dimensions', function () 
 
 terminal log
 
-``` console
+```console
 % >npm run test
 
 > qwerty-hancock@0.10.0 test /Users/_*pometa*_/Documents/GitHub/qwerty-hancock
@@ -182,7 +162,7 @@ npm ERR! code ELIFECYCLE
 npm ERR! errno 1
 npm ERR! qwerty-hancock@0.10.0 test: `./node_modules/karma/bin/karma start ./karma-conf.js --browsers Firefox --single-run`
 npm ERR! Exit status 1
-npm ERR! 
+npm ERR!
 npm ERR! Failed at the qwerty-hancock@0.10.0 test script.
 npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
 
@@ -192,7 +172,7 @@ npm ERR!     /Users/_*pometa*_/.npm/_logs/2022-07-17T09_20_26_049Z-debug.log
 
 やばそうな情報貼り付けてないよね？
 
-``` .terminal
+```.terminal
 % >npx grunt karma
 ```
 
@@ -220,7 +200,7 @@ npm ERR!     /Users/_*pometa*_/.npm/_logs/2022-07-17T09_20_26_049Z-debug.log
 
 わざわざ、`globalWindow` として変数を用意しているのは
 
-node でのtest 用か？
+node での test 用か？
 
 ## テスト
 
@@ -236,8 +216,7 @@ node でのtest 用か？
 
 鍵盤の必要ないか？
 
-class 化して、UI　と機能を分ける？
-    - キーボードのレイアウトと、Pad とできたらいいな
+class 化して、UI 　と機能を分ける？ - キーボードのレイアウトと、Pad とできたらいいな
 
 ## [stuartmemo/qwerty-hancock: A keyboard for any musical eventuality. Works best with the Web Audio API.](https://github.com/stuartmemo/qwerty-hancock) を改造（？）
 
@@ -251,7 +230,7 @@ fork すりゃいいのだけど、一旦砂場としてここに吐き出し`de
 
 `this` を`window` としてみる？
 
-### `settings` をclass 化？
+### `settings` を class 化？
 
 個別に関数で管理をする？
 
@@ -259,7 +238,7 @@ fork すりゃいいのだけど、一旦砂場としてここに吐き出し`de
 
 > 「color」はアメリカで、「colour」はイギリスで使われています。
 
-[「色」は英語でどのように表現する？| Kimini英会話](https://kimini.online/blog/archives/3050)
+[「色」は英語でどのように表現する？| Kimini 英会話](https://kimini.online/blog/archives/3050)
 
 # 📝 2022/07/13
 
