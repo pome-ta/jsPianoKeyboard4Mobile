@@ -1,6 +1,5 @@
 export class QwertyHancock {
   version = '0.0.0';
-  settings = {};
   mouse_is_down = false;
   keysDown = {};
   key_map = {
@@ -59,11 +58,15 @@ export class QwertyHancock {
       this.settings.height = container.offsetHeight;
     }
 
-    this.settings.startOctave = parseInt(this.settings.startNote.charAt(1), 10);
+    // xxx: どっちが速い？`charAt(1)` のみで抽出可能？
+    //this.settings.startOctave = parseInt(this.settings.startNote.charAt(1), 10);
+    this.settings.startOctave = this.settings.startNote.replace(/[^0-9]/g, '');
+    // xxx: `startOctave` ありきの書き方
     this.settings.keyOctave =
       user_settings.keyOctave || this.settings.startOctave;
 
     // Add getters and setters
+    // xxx: これがメインのメソッドになる？
     // xxx: `get` `set` で書く
     this.setKeyOctave = function (octave) {
       this.settings.keyOctave = octave;
@@ -388,14 +391,14 @@ export class QwertyHancock {
   }
 
   createKeyboard() {
-    let keyboard = {
+    const keyboard = {
       container: document.getElementById(this.settings.id),
       el: document.createElement('ul'),
       whiteNotes: this.orderNotes(['C', 'D', 'E', 'F', 'G', 'A', 'B']),
       notesWithSharps: this.orderNotes(['C', 'D', 'F', 'G', 'A']),
     };
 
-    let keysObj = this.createKeys(keyboard);
+    const keysObj = this.createKeys(keyboard);
 
     keyboard.keys = keysObj.keys;
     keyboard.totalWhiteKeys = keysObj.totalWhiteKeys;

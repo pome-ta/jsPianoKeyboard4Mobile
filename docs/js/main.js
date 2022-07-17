@@ -110,6 +110,5 @@ keyboard.keyUp = (note, frequency) => {
       newNodes.push(nd);
     }
   }
-
   nodes = newNodes;
 };
