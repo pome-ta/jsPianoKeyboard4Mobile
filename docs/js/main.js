@@ -59,6 +59,7 @@ const keyboardWidth = document.querySelector('.synth').clientWidth;
 const mySettings = {
   id: 'keyboard',
   width: `${keyboardWidth}`,
+  // width: 200,
   height: 128,
   startNote: 'A2',
   margin: 'auto',
@@ -71,8 +72,10 @@ const mySettings = {
 };
 
 let keyboard;
-//keyboard = new window.QwertyHancock(mySettings);
+// keyboard = new window.QwertyHancock(mySettings);
 keyboard = new QwertyHancock(mySettings);
+
+// console.log(keyboardDiv.offsetWidth);
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const context = new AudioContext();
