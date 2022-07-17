@@ -116,7 +116,7 @@ npx karma start
 
 terminal log
 
-``` .terminal
+``` console
 % >npm run test
 
 > qwerty-hancock@0.10.0 test /Users/_*pometa*_/Documents/GitHub/qwerty-hancock
