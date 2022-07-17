@@ -94,6 +94,12 @@ npm ERR!     /Users/_*pometa*_/.npm/_logs/2022-07-17T09_20_26_049Z-debug.log
 
 やばそうな情報貼り付けてないよね？
 
+``` .terminal
+% >npx grunt karma
+```
+
+これでも走ってるか？(基本色々怒られてるけど)
+
 # 📝 2022/07/16
 
 ## `createKeys` 関数
