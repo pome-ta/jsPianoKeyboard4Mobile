@@ -4,6 +4,96 @@
 
 テストをやっていくために、そもそもでどのような機能でやっているのか確認をする
 
+`debug.log`
+
+``` .log
+0 info it worked if it ends with ok
+1 verbose cli [
+1 verbose cli   '/Users/_*pometa*_/.anyenv/envs/nodenv/versions/14.18.1/bin/node',
+1 verbose cli   '/Users/_*pometa*_/.anyenv/envs/nodenv/versions/14.18.1/bin/npm',
+1 verbose cli   'run',
+1 verbose cli   'test'
+1 verbose cli ]
+2 info using npm@6.14.15
+3 info using node@v14.18.1
+4 verbose run-script [ 'pretest', 'test', 'posttest' ]
+5 info lifecycle qwerty-hancock@0.10.0~pretest: qwerty-hancock@0.10.0
+6 info lifecycle qwerty-hancock@0.10.0~test: qwerty-hancock@0.10.0
+7 verbose lifecycle qwerty-hancock@0.10.0~test: unsafe-perm in lifecycle true
+8 verbose lifecycle qwerty-hancock@0.10.0~test: PATH: /Users/_*pometa*_/.anyenv/envs/nodenv/versions/14.18.1/lib/node_modules/npm/node_modules/npm-lifecycle/node-gyp-bin:/Users/_*pometa*_/Documents/GitHub/qwerty-hancock/node_modules/.bin:/Users/_*pometa*_/.anyenv/envs/nodenv/versions/14.18.1/bin:/Users/_*pometa*_/.anyenv/envs/nodenv/libexec:/Users/_*pometa*_/.anyenv/envs/nodenv/plugins/nodenv-vars/bin:/Users/_*pometa*_/.anyenv/envs/nodenv/plugins/node-build/bin:/Users/_*pometa*_/.anyenv/bin:/Users/_*pometa*_/.anyenv/envs/rbenv/shims:/Users/_*pometa*_/.anyenv/envs/rbenv/bin:/Users/_*pometa*_/.anyenv/envs/pyenv/shims:/Users/_*pometa*_/.anyenv/envs/pyenv/bin:/Users/_*pometa*_/.anyenv/envs/nodenv/shims:/Users/_*pometa*_/.anyenv/envs/nodenv/bin:/usr/local/bin/git:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
+9 verbose lifecycle qwerty-hancock@0.10.0~test: CWD: /Users/_*pometa*_/Documents/GitHub/qwerty-hancock
+10 silly lifecycle qwerty-hancock@0.10.0~test: Args: [
+10 silly lifecycle   '-c',
+10 silly lifecycle   './node_modules/karma/bin/karma start ./karma-conf.js --browsers Firefox --single-run'
+10 silly lifecycle ]
+11 silly lifecycle qwerty-hancock@0.10.0~test: Returned: code: 1  signal: null
+12 info lifecycle qwerty-hancock@0.10.0~test: Failed to exec test script
+13 verbose stack Error: qwerty-hancock@0.10.0 test: `./node_modules/karma/bin/karma start ./karma-conf.js --browsers Firefox --single-run`
+13 verbose stack Exit status 1
+13 verbose stack     at EventEmitter.<anonymous> (/Users/_*pometa*_/.anyenv/envs/nodenv/versions/14.18.1/lib/node_modules/npm/node_modules/npm-lifecycle/index.js:332:16)
+13 verbose stack     at EventEmitter.emit (events.js:400:28)
+13 verbose stack     at ChildProcess.<anonymous> (/Users/_*pometa*_/.anyenv/envs/nodenv/versions/14.18.1/lib/node_modules/npm/node_modules/npm-lifecycle/lib/spawn.js:55:14)
+13 verbose stack     at ChildProcess.emit (events.js:400:28)
+13 verbose stack     at maybeClose (internal/child_process.js:1058:16)
+13 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:293:5)
+14 verbose pkgid qwerty-hancock@0.10.0
+15 verbose cwd /Users/_*pometa*_/Documents/GitHub/qwerty-hancock
+16 verbose Darwin 21.5.0
+17 verbose argv "/Users/_*pometa*_/.anyenv/envs/nodenv/versions/14.18.1/bin/node" "/Users/_*pometa*_/.anyenv/envs/nodenv/versions/14.18.1/bin/npm" "run" "test"
+18 verbose node v14.18.1
+19 verbose npm  v6.14.15
+20 error code ELIFECYCLE
+21 error errno 1
+22 error qwerty-hancock@0.10.0 test: `./node_modules/karma/bin/karma start ./karma-conf.js --browsers Firefox --single-run`
+22 error Exit status 1
+23 error Failed at the qwerty-hancock@0.10.0 test script.
+23 error This is probably not a problem with npm. There is likely additional logging output above.
+24 verbose exit [ 1, true ]
+```
+
+terminal log
+
+``` .terminal
+% >npm run test
+
+> qwerty-hancock@0.10.0 test /Users/_*pometa*_/Documents/GitHub/qwerty-hancock
+> ./node_modules/karma/bin/karma start ./karma-conf.js --browsers Firefox --single-run
+
+17 07 2022 18:20:23.798:INFO [karma-server]: Karma v5.2.3 server started at http://localhost:9876/
+17 07 2022 18:20:23.801:INFO [launcher]: Launching browsers Firefox with concurrency unlimited
+(node:53364) [log4js-node-DEP0004] DeprecationWarning: Pattern %d{DATE} is deprecated due to the confusion it causes when used. Please use %d{DATETIME} instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:53364) [log4js-node-DEP0004] DeprecationWarning: Pattern %d{DATE} is deprecated due to the confusion it causes when used. Please use %d{DATETIME} instead.
+17 07 2022 18:20:23.806:INFO [launcher]: Starting browser Firefox
+(node:53364) [log4js-node-DEP0004] DeprecationWarning: Pattern %d{DATE} is deprecated due to the confusion it causes when used. Please use %d{DATETIME} instead.
+17 07 2022 18:20:25.817:INFO [Firefox 102.0 (Mac OS 10.15)]: Connected on socket ~~~
+(node:53364) [log4js-node-DEP0004] DeprecationWarning: Pattern %d{DATE} is deprecated due to the confusion it causes when used. Please use %d{DATETIME} instead.
+Firefox 102.0 (Mac OS 10.15) Qwerty Hancock tests Can create keyboard with user specified dimensions FAILED
+ Expected 1264 to be 500.
+ <Jasmine>
+ @tests/qh-tests.js:22:37
+ <Jasmine>
+Firefox 102.0 (Mac OS 10.15) Qwerty Hancock tests Keyboard without specified dimensions uses element dimensions FAILED
+ Expected '191px' to be '200px'.
+ <Jasmine>
+ @tests/qh-tests.js:34:57
+ <Jasmine>
+Firefox 102.0 (Mac OS 10.15): Executed 10 of 10 (2 FAILED) (0.004 secs / 0.024 secs)
+TOTAL: 2 FAILED, 8 SUCCESS
+npm ERR! code ELIFECYCLE
+npm ERR! errno 1
+npm ERR! qwerty-hancock@0.10.0 test: `./node_modules/karma/bin/karma start ./karma-conf.js --browsers Firefox --single-run`
+npm ERR! Exit status 1
+npm ERR! 
+npm ERR! Failed at the qwerty-hancock@0.10.0 test script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /Users/_*pometa*_/.npm/_logs/2022-07-17T09_20_26_049Z-debug.log
+```
+
+やばそうな情報貼り付けてないよね？
+
 # 📝 2022/07/16
 
 ## `createKeys` 関数
