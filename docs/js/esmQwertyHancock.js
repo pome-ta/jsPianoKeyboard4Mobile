@@ -125,7 +125,7 @@ export class QwertyHancock {
       'G',
       'G#',
     ];
-    const octave= note.length === 3 ? note.charAt(2) : note.charAt(1);
+    const octave = note.length === 3 ? note.charAt(2) : note.charAt(1);
     const noteIndex = notes.indexOf(note.slice(0, -1));
     const key_number =
       noteIndex < 3
@@ -154,12 +154,6 @@ export class QwertyHancock {
         el.getAttribute('data-note-type') === 'white'
           ? this.settings.whiteKeyColour
           : this.settings.blackKeyColour;
-      /*
-      if (el.getAttribute('data-note-type') === 'white') {
-        el.style.backgroundColor = this.settings.whiteKeyColour;
-      } else {
-        el.style.backgroundColor = this.settings.blackKeyColour;
-      }*/
     }
   }
 
@@ -169,10 +163,10 @@ export class QwertyHancock {
    * @return {array{ ordered_notes Ordered notes.
    */
   orderNotes(notes_to_order) {
-    let i,
-      keyOffset = 0,
-      number_of_notes_to_order = notes_to_order.length,
-      ordered_notes = [];
+    let keyOffset = 0;
+    let ordered_notes = [];
+
+    const number_of_notes_to_order = notes_to_order.length;
 
     for (let i = 0; i < number_of_notes_to_order; i++) {
       if (this.settings.startNote.charAt(0) === notes_to_order[i]) {
@@ -251,7 +245,7 @@ export class QwertyHancock {
    * @param {element} keyboard Keyboard container DOM element.
    */
   styleKeyboard(keyboard) {
-    let styleElement = (el) => {
+    const styleElement = (el) => {
       el.style.cursor = 'default';
       el.style.fontSize = '0px';
       el.style.height = this.settings.height + 'px';
