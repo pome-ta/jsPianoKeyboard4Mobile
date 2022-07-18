@@ -59,6 +59,21 @@ var QwertyHancock = function (settings) {
 
 
 
+## モジュール
+
+[Browserify](https://browserify.org/)
+
+もう切ってもいいのでは？
+
+切ると、以下が解消できるのでは？
+
+ > In <script> context, `this` is the window.
+ 
+ > In node context (browserify), `this` is the node global.
+ 
+ 
+もしかしたら、テストとかで使う？
+
 # 📝 2022/07/17
 
 [pome-ta/qwerty-hancock: A keyboard for any musical eventuality. Works best with the Web Audio API.](https://github.com/pome-ta/qwerty-hancock)
