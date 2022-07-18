@@ -417,7 +417,7 @@ export class QwertyHancock {
    * @return {boolean} true if it was a key (combo) used by qwerty-hancock
    */
   keyboardDown(key, callback) {
-    let key_pressed;
+    //let key_pressed;
 
     if (key.keyCode in this.keysDown) {
       return false;
@@ -426,7 +426,7 @@ export class QwertyHancock {
     this.keysDown[key.keyCode] = true;
 
     if (typeof this.key_map[key.keyCode] !== undefined) {
-      key_pressed = this.getKeyPressed(key.keyCode);
+      const key_pressed = this.getKeyPressed(key.keyCode);
 
       // Call user's noteDown function.
       callback(key_pressed, getFrequencyOfNote(key_pressed));
@@ -443,12 +443,12 @@ export class QwertyHancock {
    * @return {boolean} true if it was a key (combo) used by qwerty-hancock
    */
   keyboardUp(key, callback) {
-    let key_pressed;
+    //let key_pressed;
 
-    delete keysDown[key.keyCode];
+    delete this.keysDown[key.keyCode];
 
     if (typeof this.key_map[key.keyCode] !== undefined) {
-      key_pressed = this.getKeyPressed(key.keyCode);
+      const key_pressed = this.getKeyPressed(key.keyCode);
       // Call user's noteDown function.
       callback(key_pressed, getFrequencyOfNote(key_pressed));
       darkenDown(document.getElementById(key_pressed));
@@ -458,6 +458,7 @@ export class QwertyHancock {
   }
 
   getKeyPressed(keyCode) {
+    console.log(key_map);
     return key_map[keyCode]
       .replace(
         'l',
