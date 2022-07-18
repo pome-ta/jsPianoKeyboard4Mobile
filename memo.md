@@ -1,14 +1,10 @@
 # 📝 2022/07/18
 
-
 ## リファクタリングを考える
-
 
 無駄に関数が並び、行ったり来たりするので見通しのいい書き順にする
 
-
 半音ずつ全て同等に扱いたい
-
 
 ### 現行の流れ
 
@@ -16,13 +12,9 @@
   - `id` で枠を固める
   - 白と黒鍵盤で情報を分ける
 
-
-
 ### 未処理
 
 `this.keyDown` `this.keyUp` 何も処理してなかった
-
-
 
 ``` .js
 /**
@@ -57,8 +49,6 @@ var QwertyHancock = function (settings) {
 
 他にも微妙に処理終えてないのある、、、
 
-
-
 ## モジュール
 
 [Browserify](https://browserify.org/)
@@ -67,12 +57,33 @@ var QwertyHancock = function (settings) {
 
 切ると、以下が解消できるのでは？
 
- > In <script> context, `this` is the window.
- 
- > In node context (browserify), `this` is the node global.
- 
- 
+> In ＜script＞ context, `this` is the window.
+> In node context (browserify), `this` is the node global.
+
 もしかしたら、テストとかで使う？
+
+## `undefined` boolean 判定
+
+文字列として`undefined` を処理した方がいいみたいだが
+
+``` .js
+if (typeof hoge === undefined) {
+  // だめ
+}
+
+if (typeof hoge === 'undefined') {
+  // おk
+}
+
+```
+
+確かに、そうよな。といった感想
+
+[JavaScriptでtypeof x === 'undefined'を使わないで欲しい理由](https://www.ncaq.net/2018/06/16/16/44/31/)
+
+## `keyboardLayout` 設定
+
+そんな読み替えるところとかあった？
 
 # 📝 2022/07/17
 

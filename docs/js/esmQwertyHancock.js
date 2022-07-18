@@ -50,11 +50,11 @@ export class QwertyHancock {
     };
     const container = document.getElementById(this.settings.id);
 
-    if (typeof this.settings.width === undefined) {
+    if (this.settings.width === undefined) {
       this.settings.width = container.offsetWidth;
     }
 
-    if (typeof this.settings.height === undefined) {
+    if (this.settings.height === undefined) {
       this.settings.height = container.offsetHeight;
     }
 
@@ -78,7 +78,6 @@ export class QwertyHancock {
     };
     this.keyOctaveUp = function () {
       // xxx: インクリメントでそのまま返す？
-      console.log('hi');
       this.settings.keyOctave++;
       return this.settings.keyOctave;
     };
@@ -97,7 +96,6 @@ export class QwertyHancock {
     };
 
     this.createKeyboard();
-    // this.addListeners.call(this, container);
     this.addListeners(container);
   }
 
@@ -137,7 +135,7 @@ export class QwertyHancock {
   /**
    * Order notes into order defined by starting key in settings.
    * @param {array} notes_to_order Notes to be ordered.
-   * @return {array{ ordered_notes Ordered notes.
+   * @return {array} ordered_notes Ordered notes.
    */
   orderNotes(notes_to_order) {
     let keyOffset = 0;
@@ -329,9 +327,7 @@ export class QwertyHancock {
   }
 
   addKeysToKeyboard(keyboard) {
-    keyboard.keys.forEach(function (key) {
-      keyboard.el.appendChild(key);
-    });
+    keyboard.keys.forEach((key) => keyboard.el.appendChild(key));
   }
 
   /**
@@ -339,8 +335,6 @@ export class QwertyHancock {
    * @param {element} keyboard_element
    */
   addListeners(keyboard_element) {
-    //let that = this;
-
     if (this.settings.musicalTyping) {
       // Key is pressed down on keyboard.
       window.addEventListener('keydown', (key) => {
@@ -417,20 +411,17 @@ export class QwertyHancock {
    * @return {boolean} true if it was a key (combo) used by qwerty-hancock
    */
   keyboardDown(key, callback) {
-    //let key_pressed;
-
     if (key.keyCode in this.keysDown) {
       return false;
     }
-
     this.keysDown[key.keyCode] = true;
 
-    if (typeof this.key_map[key.keyCode] !== undefined) {
+    // if (typeof this.key_map[key.keyCode] !== 'undefined') {
+    if (this.key_map[key.keyCode]) {
       const key_pressed = this.getKeyPressed(key.keyCode);
-
       // Call user's noteDown function.
-      callback(key_pressed, getFrequencyOfNote(key_pressed));
-      lightenUp(document.getElementById(key_pressed));
+      callback(key_pressed, this.getFrequencyOfNote(key_pressed));
+      this.lightenUp(document.getElementById(key_pressed));
       return true;
     }
     return false;
@@ -443,23 +434,23 @@ export class QwertyHancock {
    * @return {boolean} true if it was a key (combo) used by qwerty-hancock
    */
   keyboardUp(key, callback) {
-    //let key_pressed;
-
     delete this.keysDown[key.keyCode];
-
-    if (typeof this.key_map[key.keyCode] !== undefined) {
+    // if (typeof this.key_map[key.keyCode] !== 'undefined') {
+    if (this.key_map[key.keyCode]) {
       const key_pressed = this.getKeyPressed(key.keyCode);
       // Call user's noteDown function.
-      callback(key_pressed, getFrequencyOfNote(key_pressed));
-      darkenDown(document.getElementById(key_pressed));
+      callback(key_pressed, this.getFrequencyOfNote(key_pressed));
+      this.darkenDown(document.getElementById(key_pressed));
       return true;
     }
     return false;
   }
 
+  keyDown() {}
+  keyUp() {}
+
   getKeyPressed(keyCode) {
-    console.log(key_map);
-    return key_map[keyCode]
+    return this.key_map[keyCode]
       .replace(
         'l',
         parseInt(this.settings.keyOctave, 10) + this.settings.keyPressOffset
@@ -508,7 +499,7 @@ export class QwertyHancock {
    * @param  {element} el DOM element to change colour of.
    */
   lightenUp(el) {
-    if (el !== null || typeof el === undefined) {
+    if (el !== null || typeof el === 'undefined') {
       el.style.backgroundColor = this.settings.activeColour;
     }
   }
@@ -530,7 +521,7 @@ export class QwertyHancock {
    * Call user's mouseDown event.
    */
   mouseDown(element, callback) {
-    if (element.tagName.toLowerCase() == 'li') {
+    if (element.tagName.toLowerCase() === 'li') {
       this.mouse_is_down = true;
       this.lightenUp(element);
       callback(element.title, this.getFrequencyOfNote(element.title));
@@ -541,7 +532,7 @@ export class QwertyHancock {
    * Call user's mouseUp event.
    */
   mouseUp(element, callback) {
-    if (element.tagName.toLowerCase() == 'li') {
+    if (element.tagName.toLowerCase() === 'li') {
       this.mouse_is_down = false;
       this.darkenDown(element);
       callback(element.title, this.getFrequencyOfNote(element.title));

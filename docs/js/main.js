@@ -24,7 +24,9 @@ const mySettings = {
   borderColour: '#000',
   activeColour: 'maroon',
   octaves: 2,
-  musicalTyping: false,
+  // musicalTyping: false,
+  musicalTyping: true,
+  keyboardLayout: 'ja',
 };
 
 let keyboard;
