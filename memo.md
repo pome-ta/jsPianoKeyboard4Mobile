@@ -1,3 +1,64 @@
+# 📝 2022/07/18
+
+
+## リファクタリングを考える
+
+
+無駄に関数が並び、行ったり来たりするので見通しのいい書き順にする
+
+
+半音ずつ全て同等に扱いたい
+
+
+### 現行の流れ
+
+- `createKeyboard`
+  - `id` で枠を固める
+  - 白と黒鍵盤で情報を分ける
+
+
+
+### 未処理
+
+`this.keyDown` `this.keyUp` 何も処理してなかった
+
+
+
+``` .js
+/**
+ * Qwerty Hancock constructor.
+ * @param {object} settings Optional user settings.
+ */
+var QwertyHancock = function (settings) {
+  this.version = version;
+
+  this.keyDown = function () {
+    // Placeholder function.
+  };
+
+  this.keyUp = function () {
+    // Placeholder function.
+  };
+
+  this.setKeyOctave = function (octave) {
+    // Placeholder function.
+  };
+
+  this.getKeyOctave = function () {};
+  this.keyOctaveUp = function () {};
+  this.keyOctaveDown = function () {};
+
+  this.getKeyMap = function () {};
+  this.setKeyMap = function (newKeyMap) {};
+
+  init.call(this, settings);
+};
+```
+
+他にも微妙に処理終えてないのある、、、
+
+
+
 # 📝 2022/07/17
 
 [pome-ta/qwerty-hancock: A keyboard for any musical eventuality. Works best with the Web Audio API.](https://github.com/pome-ta/qwerty-hancock)
@@ -33,7 +94,6 @@ npx grunt uglify
 現在の version は、`v6.4`
 
 [Karma - Spectacular Test Runner for Javascript](https://karma-runner.github.io/latest/index.html)
-
 
 フロントエンドの単体テストを実行するためのテストランナー
 
