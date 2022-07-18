@@ -12,7 +12,7 @@
 
 現在の version は、`v1.4.1`
 
-[https://gruntjs.com/](https://gruntjs.com/)
+[Grunt: The JavaScript Task Runner](https://gruntjs.com/)
 
 タスクランナー
 
@@ -32,7 +32,8 @@ npx grunt uglify
 
 現在の version は、`v6.4`
 
-[https://karma-runner.github.io/latest/index.html](https://karma-runner.github.io/latest/index.html)
+[Karma - Spectacular Test Runner for Javascript](https://karma-runner.github.io/latest/index.html)
+
 
 フロントエンドの単体テストを実行するためのテストランナー
 
