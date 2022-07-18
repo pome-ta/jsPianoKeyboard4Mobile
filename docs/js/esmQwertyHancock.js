@@ -78,7 +78,7 @@ export class QwertyHancock {
     };
     this.keyOctaveUp = function () {
       // xxx: インクリメントでそのまま返す？
-      console.log('hi')
+      console.log('hi');
       this.settings.keyOctave++;
       return this.settings.keyOctave;
     };
@@ -99,68 +99,39 @@ export class QwertyHancock {
     this.createKeyboard();
     // this.addListeners.call(this, container);
     this.addListeners(container);
-    this.keyOctaveUp()
-  }
-  /**
-   * Calculate width of white key.
-   * @return {number} Width of a single white key in pixels.
-   */
-  getWhiteKeyWidth(number_of_white_keys) {
-    return Math.floor(
-      (this.settings.width - number_of_white_keys) / number_of_white_keys
-    );
   }
 
-  /**
-   * Get frequency of a given note.
-   * @param  {string} note Musical note to convert into hertz.
-   * @return {number} Frequency of note in hertz.
-   */
-  getFrequencyOfNote(note) {
-    const notes = [
-      'A',
-      'A#',
-      'B',
-      'C',
-      'C#',
-      'D',
-      'D#',
-      'E',
-      'F',
-      'F#',
-      'G',
-      'G#',
-    ];
-    const octave = note.length === 3 ? note.charAt(2) : note.charAt(1);
-    const noteIndex = notes.indexOf(note.slice(0, -1));
-    const key_number =
-      noteIndex < 3
-        ? noteIndex + 12 + (octave - 1) * 12 + 1
-        : noteIndex + (octave - 1) * 12 + 1;
-    return 440 * Math.pow(2, (key_number - 49) / 12);
-  }
+  createKeyboard() {
+    const keyboard = {
+      container: document.getElementById(this.settings.id),
+      el: document.createElement('ul'),
+      whiteNotes: this.orderNotes(['C', 'D', 'E', 'F', 'G', 'A', 'B']),
+      notesWithSharps: this.orderNotes(['C', 'D', 'F', 'G', 'A']),
+    };
 
-  /**
-   * Lighten up man. Change the colour of a key.
-   * @param  {element} el DOM element to change colour of.
-   */
-  lightenUp(el) {
-    if (el !== null || typeof el === undefined) {
-      el.style.backgroundColor = this.settings.activeColour;
+    const keysObj = this.createKeys(keyboard);
+
+    keyboard.keys = keysObj.keys;
+    keyboard.totalWhiteKeys = keysObj.totalWhiteKeys;
+
+    this.setKeyPressOffset(keyboard.whiteNotes);
+    this.styleKeyboard(keyboard);
+
+    // Add keys to keyboard, and keyboard to container.
+    this.addKeysToKeyboard(keyboard);
+
+    if (keyboard.container.querySelector('ul')) {
+      keyboard.container.replaceChild(
+        keyboard.el,
+        keyboard.container.querySelector('ul')
+      );
+    } else {
+      keyboard.container.appendChild(keyboard.el);
     }
-  }
 
-  /**
-   * Revert key to original colour.
-   * @param  {element} el DOM element to change colour of.
-   */
-  darkenDown(el) {
-    if (el !== null) {
-      el.style.backgroundColor =
-        el.getAttribute('data-note-type') === 'white'
-          ? this.settings.whiteKeyColour
-          : this.settings.blackKeyColour;
-    }
+    // xxx: `return` 🤔
+    return keyboard;
+    //this.keyboard = keyboard;
   }
 
   /**
@@ -193,153 +164,13 @@ export class QwertyHancock {
     return ordered_notes;
   }
 
-  /**
-   * Add styling to individual white key.
-   * @param  {element} el White key DOM element.
-   */
-  styleWhiteKey(key) {
-    key.el.style.backgroundColor = this.settings.whiteKeyColour;
-    key.el.style.border = '1px solid ' + this.settings.borderColour;
-    key.el.style.borderRight = 0;
-    key.el.style.height = this.settings.height + 'px';
-    key.el.style.width = key.width + 'px';
-    key.el.style.borderRadius = '0 0 5px 5px';
-    key.el.style.position = 'relative';
-    key.el.style.zIndex = '1';
-    key.el.style.boxSizing = 'content-box';
-
-    if (key.noteNumber === this.getTotalWhiteKeys() - 1) {
-      key.el.style.border = '1px solid ' + this.settings.borderColour;
-    }
-  }
-
-  /**
-   * Add styling to individual black key.
-   * @param  {element} el Black key DOM element.
-   */
-  styleBlackKey(key) {
-    let white_key_width = this.getWhiteKeyWidth(this.getTotalWhiteKeys());
-    let black_key_width = Math.floor(white_key_width / 2);
-
-    key.el.style.backgroundColor = this.settings.blackKeyColour;
-    key.el.style.border = '1px solid ' + this.settings.borderColour;
-    key.el.style.position = 'absolute';
-    key.el.style.left =
-      Math.floor(
-        (white_key_width + 1) * (key.noteNumber + 1) - black_key_width / 2
-      ) + 'px';
-    key.el.style.width = black_key_width + 'px';
-    key.el.style.height = this.settings.height / 1.5 + 'px';
-    key.el.style.borderRadius = '0 0 3px 3px';
-    key.el.style.zIndex = '2';
-    key.el.style.boxSizing = 'content-box';
-  }
-
-  /**
-   * Add styling to individual key on keyboard.
-   * @param  {object} key Element of key.
-   */
-  styleKey(key) {
-    key.el.style.display = 'inline-block';
-    key.el.style['-webkit-user-select'] = 'none';
-
-    key.colour === 'white' ? this.styleWhiteKey(key) : this.styleBlackKey(key);
-  }
-
-  /**
-   * Reset styles on keyboard container and list element.
-   * @param {element} keyboard Keyboard container DOM element.
-   */
-  styleKeyboard(keyboard) {
-    const styleElement = (el) => {
-      el.style.cursor = 'default';
-      el.style.fontSize = '0px';
-      el.style.height = this.settings.height + 'px';
-      el.style.padding = 0;
-      el.style.position = 'relative';
-      el.style.listStyle = 'none';
-      el.style.margin = this.settings.margin;
-      el.style['-webkit-user-select'] = 'none';
-      el.style.boxSizing = 'content-box';
-    };
-
-    styleElement(keyboard.container);
-    styleElement(keyboard.el);
-    keyboard.el.style.width =
-      keyboard.totalWhiteKeys *
-        (this.getWhiteKeyWidth(keyboard.totalWhiteKeys) + 1) +
-      2 +
-      'px';
-  }
-
-  /**
-   * Call user's mouseDown event.
-   */
-  mouseDown(element, callback) {
-    if (element.tagName.toLowerCase() == 'li') {
-      this.mouse_is_down = true;
-      this.lightenUp(element);
-      callback(element.title, this.getFrequencyOfNote(element.title));
-    }
-  }
-
-  /**
-   * Call user's mouseUp event.
-   */
-  mouseUp(element, callback) {
-    if (element.tagName.toLowerCase() == 'li') {
-      this.mouse_is_down = false;
-      this.darkenDown(element);
-      callback(element.title, this.getFrequencyOfNote(element.title));
-    }
-  }
-
-  /**
-   * Call user's mouseDown if required.
-   */
-  mouseOver(element, callback) {
-    if (this.mouse_is_down) {
-      this.lightenUp(element);
-      callback(element.title, this.getFrequencyOfNote(element.title));
-    }
-  }
-
-  /**
-   * Call user's mouseUp if required.
-   */
-  mouseOut(element, callback) {
-    if (this.mouse_is_down) {
-      this.darkenDown(element);
-      callback(element.title, this.getFrequencyOfNote(element.title));
-    }
-  }
-
-  /**
-   * Create key DOM element.
-   * @return {object} Key DOM element.
-   */
-  createKey(key) {
-    key.el = document.createElement('li');
-    key.el.id = key.id;
-    key.el.title = key.id;
-    key.el.setAttribute('data-note-type', key.colour);
-
-    this.styleKey(key);
-
-    return key;
-  }
-
-  getTotalWhiteKeys() {
-    return this.settings.octaves * 7;
-  }
-
   createKeys(keyboard) {
     let key;
     let keys = [];
     let note_counter = 0;
     //let octave_counter = this.settings.startOctave;
     let octave_counter = this.settings.keyOctave;
-    
+
     let total_white_keys = this.getTotalWhiteKeys();
 
     for (let i = 0; i < total_white_keys; i++) {
@@ -385,118 +216,122 @@ export class QwertyHancock {
     };
   }
 
-  addKeysToKeyboard(keyboard) {
-    keyboard.keys.forEach(function (key) {
-      keyboard.el.appendChild(key);
-    });
+  getTotalWhiteKeys() {
+    return this.settings.octaves * 7;
+  }
+
+  /**
+   * Calculate width of white key.
+   * @return {number} Width of a single white key in pixels.
+   */
+  getWhiteKeyWidth(number_of_white_keys) {
+    return Math.floor(
+      (this.settings.width - number_of_white_keys) / number_of_white_keys
+    );
+  }
+
+  /**
+   * Create key DOM element.
+   * @return {object} Key DOM element.
+   */
+  createKey(key) {
+    key.el = document.createElement('li');
+    key.el.id = key.id;
+    key.el.title = key.id;
+    key.el.setAttribute('data-note-type', key.colour);
+
+    this.styleKey(key);
+
+    return key;
+  }
+
+  /**
+   * Add styling to individual key on keyboard.
+   * @param  {object} key Element of key.
+   */
+  styleKey(key) {
+    key.el.style.display = 'inline-block';
+    key.el.style['-webkit-user-select'] = 'none';
+
+    key.colour === 'white' ? this.styleWhiteKey(key) : this.styleBlackKey(key);
+  }
+
+  /**
+   * Add styling to individual white key.
+   * @param  {element} el White key DOM element.
+   */
+  styleWhiteKey(key) {
+    key.el.style.backgroundColor = this.settings.whiteKeyColour;
+    key.el.style.border = '1px solid ' + this.settings.borderColour;
+    key.el.style.borderRight = 0;
+    key.el.style.height = this.settings.height + 'px';
+    key.el.style.width = key.width + 'px';
+    key.el.style.borderRadius = '0 0 5px 5px';
+    key.el.style.position = 'relative';
+    key.el.style.zIndex = '1';
+    key.el.style.boxSizing = 'content-box';
+
+    if (key.noteNumber === this.getTotalWhiteKeys() - 1) {
+      key.el.style.border = '1px solid ' + this.settings.borderColour;
+    }
+  }
+
+  /**
+   * Add styling to individual black key.
+   * @param  {element} el Black key DOM element.
+   */
+  styleBlackKey(key) {
+    let white_key_width = this.getWhiteKeyWidth(this.getTotalWhiteKeys());
+    let black_key_width = Math.floor(white_key_width / 2);
+
+    key.el.style.backgroundColor = this.settings.blackKeyColour;
+    key.el.style.border = '1px solid ' + this.settings.borderColour;
+    key.el.style.position = 'absolute';
+    key.el.style.left =
+      Math.floor(
+        (white_key_width + 1) * (key.noteNumber + 1) - black_key_width / 2
+      ) + 'px';
+    key.el.style.width = black_key_width + 'px';
+    key.el.style.height = this.settings.height / 1.5 + 'px';
+    key.el.style.borderRadius = '0 0 3px 3px';
+    key.el.style.zIndex = '2';
+    key.el.style.boxSizing = 'content-box';
   }
 
   setKeyPressOffset(sorted_white_notes) {
     this.settings.keyPressOffset = sorted_white_notes[0] === 'C' ? 0 : 1;
   }
 
-  createKeyboard() {
-    const keyboard = {
-      container: document.getElementById(this.settings.id),
-      el: document.createElement('ul'),
-      whiteNotes: this.orderNotes(['C', 'D', 'E', 'F', 'G', 'A', 'B']),
-      notesWithSharps: this.orderNotes(['C', 'D', 'F', 'G', 'A']),
+  /**
+   * Reset styles on keyboard container and list element.
+   * @param {element} keyboard Keyboard container DOM element.
+   */
+  styleKeyboard(keyboard) {
+    const styleElement = (el) => {
+      el.style.cursor = 'default';
+      el.style.fontSize = '0px';
+      el.style.height = this.settings.height + 'px';
+      el.style.padding = 0;
+      el.style.position = 'relative';
+      el.style.listStyle = 'none';
+      el.style.margin = this.settings.margin;
+      el.style['-webkit-user-select'] = 'none';
+      el.style.boxSizing = 'content-box';
     };
 
-    const keysObj = this.createKeys(keyboard);
-
-    keyboard.keys = keysObj.keys;
-    keyboard.totalWhiteKeys = keysObj.totalWhiteKeys;
-
-    this.setKeyPressOffset(keyboard.whiteNotes);
-    this.styleKeyboard(keyboard);
-
-    // Add keys to keyboard, and keyboard to container.
-    this.addKeysToKeyboard(keyboard);
-
-    if (keyboard.container.querySelector('ul')) {
-      keyboard.container.replaceChild(
-        keyboard.el,
-        keyboard.container.querySelector('ul')
-      );
-    } else {
-      keyboard.container.appendChild(keyboard.el);
-    }
-
-    // xxx: `return` 🤔
-    return keyboard;
-    //this.keyboard = keyboard;
+    styleElement(keyboard.container);
+    styleElement(keyboard.el);
+    keyboard.el.style.width =
+      keyboard.totalWhiteKeys *
+        (this.getWhiteKeyWidth(keyboard.totalWhiteKeys) + 1) +
+      2 +
+      'px';
   }
 
-  getKeyPressed(keyCode) {
-    return key_map[keyCode]
-      .replace(
-        'l',
-        parseInt(this.settings.keyOctave, 10) + this.settings.keyPressOffset
-      )
-      .replace(
-        'u',
-        (
-          parseInt(this.settings.keyOctave, 10) +
-          this.settings.keyPressOffset +
-          1
-        ).toString()
-      );
-  }
-
-  /**
-   * Handle a keyboard key being pressed.
-   * @param {object} key The keyboard event of the currently pressed key.
-   * @param {callback} callback The user's noteDown function.
-   * @return {boolean} true if it was a key (combo) used by qwerty-hancock
-   */
-  keyboardDown(key, callback) {
-    let key_pressed;
-
-    if (key.keyCode in this.keysDown) {
-      return false;
-    }
-
-    this.keysDown[key.keyCode] = true;
-
-    if (typeof this.key_map[key.keyCode] !== undefined) {
-      key_pressed = this.getKeyPressed(key.keyCode);
-
-      // Call user's noteDown function.
-      callback(key_pressed, getFrequencyOfNote(key_pressed));
-      lightenUp(document.getElementById(key_pressed));
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Handle a keyboard key being released.
-   * @param {element} key The DOM element of the key that was released.
-   * @param {callback} callback The user's noteDown function.
-   * @return {boolean} true if it was a key (combo) used by qwerty-hancock
-   */
-  keyboardUp(key, callback) {
-    let key_pressed;
-
-    delete keysDown[key.keyCode];
-
-    if (typeof this.key_map[key.keyCode] !== undefined) {
-      key_pressed = this.getKeyPressed(key.keyCode);
-      // Call user's noteDown function.
-      callback(key_pressed, getFrequencyOfNote(key_pressed));
-      darkenDown(document.getElementById(key_pressed));
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Determine whether pressed key is a modifier key or not.
-   * @param {KeyboardEvent} The keydown event of a pressed key
-   */
-  isModifierKey(key) {
-    return key.ctrlKey || key.metaKey || key.altKey;
+  addKeysToKeyboard(keyboard) {
+    keyboard.keys.forEach(function (key) {
+      keyboard.el.appendChild(key);
+    });
   }
 
   /**
@@ -564,6 +399,171 @@ export class QwertyHancock {
       keyboard_element.addEventListener('touchcancel', (event) => {
         this.mouseOut(event.target, this.keyUp);
       });
+    }
+  }
+
+  /**
+   * Determine whether pressed key is a modifier key or not.
+   * @param {KeyboardEvent} The keydown event of a pressed key
+   */
+  isModifierKey(key) {
+    return key.ctrlKey || key.metaKey || key.altKey;
+  }
+
+  /**
+   * Handle a keyboard key being pressed.
+   * @param {object} key The keyboard event of the currently pressed key.
+   * @param {callback} callback The user's noteDown function.
+   * @return {boolean} true if it was a key (combo) used by qwerty-hancock
+   */
+  keyboardDown(key, callback) {
+    let key_pressed;
+
+    if (key.keyCode in this.keysDown) {
+      return false;
+    }
+
+    this.keysDown[key.keyCode] = true;
+
+    if (typeof this.key_map[key.keyCode] !== undefined) {
+      key_pressed = this.getKeyPressed(key.keyCode);
+
+      // Call user's noteDown function.
+      callback(key_pressed, getFrequencyOfNote(key_pressed));
+      lightenUp(document.getElementById(key_pressed));
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Handle a keyboard key being released.
+   * @param {element} key The DOM element of the key that was released.
+   * @param {callback} callback The user's noteDown function.
+   * @return {boolean} true if it was a key (combo) used by qwerty-hancock
+   */
+  keyboardUp(key, callback) {
+    let key_pressed;
+
+    delete keysDown[key.keyCode];
+
+    if (typeof this.key_map[key.keyCode] !== undefined) {
+      key_pressed = this.getKeyPressed(key.keyCode);
+      // Call user's noteDown function.
+      callback(key_pressed, getFrequencyOfNote(key_pressed));
+      darkenDown(document.getElementById(key_pressed));
+      return true;
+    }
+    return false;
+  }
+
+  getKeyPressed(keyCode) {
+    return key_map[keyCode]
+      .replace(
+        'l',
+        parseInt(this.settings.keyOctave, 10) + this.settings.keyPressOffset
+      )
+      .replace(
+        'u',
+        (
+          parseInt(this.settings.keyOctave, 10) +
+          this.settings.keyPressOffset +
+          1
+        ).toString()
+      );
+  }
+
+  /**
+   * Get frequency of a given note.
+   * @param  {string} note Musical note to convert into hertz.
+   * @return {number} Frequency of note in hertz.
+   */
+  getFrequencyOfNote(note) {
+    const notes = [
+      'A',
+      'A#',
+      'B',
+      'C',
+      'C#',
+      'D',
+      'D#',
+      'E',
+      'F',
+      'F#',
+      'G',
+      'G#',
+    ];
+    const octave = note.length === 3 ? note.charAt(2) : note.charAt(1);
+    const noteIndex = notes.indexOf(note.slice(0, -1));
+    const key_number =
+      noteIndex < 3
+        ? noteIndex + 12 + (octave - 1) * 12 + 1
+        : noteIndex + (octave - 1) * 12 + 1;
+    return 440 * Math.pow(2, (key_number - 49) / 12);
+  }
+
+  /**
+   * Lighten up man. Change the colour of a key.
+   * @param  {element} el DOM element to change colour of.
+   */
+  lightenUp(el) {
+    if (el !== null || typeof el === undefined) {
+      el.style.backgroundColor = this.settings.activeColour;
+    }
+  }
+
+  /**
+   * Revert key to original colour.
+   * @param  {element} el DOM element to change colour of.
+   */
+  darkenDown(el) {
+    if (el !== null) {
+      el.style.backgroundColor =
+        el.getAttribute('data-note-type') === 'white'
+          ? this.settings.whiteKeyColour
+          : this.settings.blackKeyColour;
+    }
+  }
+
+  /**
+   * Call user's mouseDown event.
+   */
+  mouseDown(element, callback) {
+    if (element.tagName.toLowerCase() == 'li') {
+      this.mouse_is_down = true;
+      this.lightenUp(element);
+      callback(element.title, this.getFrequencyOfNote(element.title));
+    }
+  }
+
+  /**
+   * Call user's mouseUp event.
+   */
+  mouseUp(element, callback) {
+    if (element.tagName.toLowerCase() == 'li') {
+      this.mouse_is_down = false;
+      this.darkenDown(element);
+      callback(element.title, this.getFrequencyOfNote(element.title));
+    }
+  }
+
+  /**
+   * Call user's mouseDown if required.
+   */
+  mouseOver(element, callback) {
+    if (this.mouse_is_down) {
+      this.lightenUp(element);
+      callback(element.title, this.getFrequencyOfNote(element.title));
+    }
+  }
+
+  /**
+   * Call user's mouseUp if required.
+   */
+  mouseOut(element, callback) {
+    if (this.mouse_is_down) {
+      this.darkenDown(element);
+      callback(element.title, this.getFrequencyOfNote(element.title));
     }
   }
 }
