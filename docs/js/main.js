@@ -22,20 +22,20 @@ const mySettings = {
   width: `${keyboardWidth}`,
   // width: 200,
   height: 128,
-  startNote: 'A3',
+  startNote: 'C3',
   margin: 'auto',
   whiteNotesColour: '#fff',
   blackNotesColour: '#000',
   borderColour: '#000',
   activeColour: 'maroon',
-  octaves: 3,
+  octaves: 1,
   musicalTyping: false,
   //musicalTyping: true,
   //keyboardLayout: 'ja',
 };
 
 let keyboard;
-// keyboard = new window.QwertyHancock(mySettings);
+//keyboard = new window.QwertyHancock(mySettings);
 keyboard = new QwertyHancock(mySettings);
 //keyboard.keyOctaveUp()
 // console.log(keyboardDiv.offsetWidth);
