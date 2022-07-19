@@ -52,11 +52,14 @@ function createKeys(keyboard) {
   //let octave_counter = this.settings.keyOctave;
 
   // 3
+  // xxx: 関数`getTotalWhiteKeys` の`7` よりも、`keyboard.whiteNotes` の長さの方が自明的？
+  // xxx: `totalWhiteKeys` を配列として、`.length` で長さを取るか
   const totalWhiteKeys = getTotalWhiteKeys();
   const keyWidth = getWhiteKeyWidth(totalWhiteKeys);
-  const totalKays = new Array(settings.keyOctave)
-    .fill()
-    .map((_) => [...keyboard.whiteNotes, ...keyboard.notesWithSharps]);
+  const totalKays = [...new Array(settings.keyOctave)].map(() => [
+    ...keyboard.whiteNotes,
+    ...keyboard.notesWithSharps,
+  ]);
 
   for (let noteNumber = 0; noteNumber < totalWhiteKeys; noteNumber++) {
     if (noteNumber % keyboard.whiteNotes.length === 0) {
