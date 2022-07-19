@@ -96,7 +96,7 @@ export class QwertyHancock {
     };
 
     this.createKeyboard();
-    //this.addListeners(container);
+    this.addListeners(container);
   }
 
   createKeyboard() {
@@ -236,7 +236,7 @@ export class QwertyHancock {
     key.el.id = key.id;
     key.el.title = key.id;
     key.el.setAttribute('data-note-type', key.colour);
-
+console.log(key.noteNumber)
     this.styleKey(key);
 
     return key;
@@ -278,8 +278,8 @@ export class QwertyHancock {
    * @param  {element} el Black key DOM element.
    */
   styleBlackKey(key) {
-    let white_key_width = this.getWhiteKeyWidth(this.getTotalWhiteKeys());
-    let black_key_width = Math.floor(white_key_width / 2);
+    const white_key_width = this.getWhiteKeyWidth(this.getTotalWhiteKeys());
+    const black_key_width = Math.floor(white_key_width / 2);
 
     key.el.style.backgroundColor = this.settings.blackKeyColour;
     key.el.style.border = '1px solid ' + this.settings.borderColour;
