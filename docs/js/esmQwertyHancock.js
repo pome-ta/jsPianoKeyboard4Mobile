@@ -96,7 +96,7 @@ export class QwertyHancock {
     };
 
     this.createKeyboard();
-    this.addListeners(container);
+    //this.addListeners(container);
   }
 
   createKeyboard() {
@@ -158,7 +158,6 @@ export class QwertyHancock {
         ordered_notes[i] = notes_to_order[i + keyOffset];
       }
     }
-    console.log(ordered_notes)
     return ordered_notes;
   }
 
@@ -169,7 +168,7 @@ export class QwertyHancock {
     //let octave_counter = this.settings.startOctave;
     let octave_counter = this.settings.keyOctave;
 
-    let total_white_keys = this.getTotalWhiteKeys();
+    const total_white_keys = this.getTotalWhiteKeys();
 
     for (let i = 0; i < total_white_keys; i++) {
       if (i % keyboard.whiteNotes.length === 0) {
@@ -201,8 +200,8 @@ export class QwertyHancock {
               id: keyboard.whiteNotes[note_counter] + '#' + octave_counter,
               noteNumber: i,
             });
+            keys.push(key.el);
           }
-          keys.push(key.el);
         }
       }
       note_counter++;
