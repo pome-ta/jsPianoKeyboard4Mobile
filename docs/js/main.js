@@ -23,10 +23,10 @@ const mySettings = {
   blackNotesColour: '#000',
   borderColour: '#000',
   activeColour: 'maroon',
-  octaves: 2,
-  // musicalTyping: false,
-  musicalTyping: true,
-  keyboardLayout: 'ja',
+  octaves: 3,
+  musicalTyping: false,
+  //musicalTyping: true,
+  //keyboardLayout: 'ja',
 };
 
 let keyboard;
