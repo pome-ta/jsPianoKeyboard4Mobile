@@ -53,6 +53,10 @@ function createKeys(keyboard) {
 
   // 3
   const totalWhiteKeys = getTotalWhiteKeys();
+  const keyWidth = getWhiteKeyWidth(totalWhiteKeys);
+  const totalKays = new Array(settings.keyOctave)
+    .fill()
+    .map((_) => [...keyboard.whiteNotes, ...keyboard.notesWithSharps]);
 
   for (let noteNumber = 0; noteNumber < totalWhiteKeys; noteNumber++) {
     if (noteNumber % keyboard.whiteNotes.length === 0) {
@@ -99,6 +103,14 @@ function createKeys(keyboard) {
 
 function getTotalWhiteKeys() {
   return settings.octaves * 7;
+}
+
+/**
+ * Calculate width of white key.
+ * @return {number} Width of a single white key in pixels.
+ */
+function getWhiteKeyWidth(numberOfWhiteKeys) {
+  return Math.floor((settings.width - numberOfWhiteKeys) / numberOfWhiteKeys);
 }
 
 function createKey() {
