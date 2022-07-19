@@ -158,7 +158,7 @@ export class QwertyHancock {
         ordered_notes[i] = notes_to_order[i + keyOffset];
       }
     }
-
+    console.log(ordered_notes)
     return ordered_notes;
   }
 

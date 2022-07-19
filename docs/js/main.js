@@ -2,6 +2,8 @@
 
 import { QwertyHancock } from './esmQwertyHancock.js';
 
+
+
 const synth = document.createElement('div');
 const keyboardDiv = document.createElement('div');
 keyboardDiv.id = 'keyboard';
@@ -11,6 +13,9 @@ synth.appendChild(keyboardDiv);
 document.body.appendChild(synth);
 
 const keyboardWidth = document.querySelector('.synth').clientWidth;
+
+//import { miniKey } from './miniKey.js';
+//miniKey(keyboardDiv);
 
 const mySettings = {
   id: 'keyboard',
@@ -73,3 +78,4 @@ keyboard.keyUp = (note, frequency) => {
   }
   nodes = newNodes;
 };
+
