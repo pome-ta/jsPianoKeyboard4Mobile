@@ -51,9 +51,9 @@ function orderNotes(notesToOrder) {
   const orderedNotes = notesToOrder.map(
     (_, index, array) =>
       array[
-        index + keyOffset < notesToOrder.length
+        index + keyOffset < array.length
           ? index + keyOffset
-          : index + keyOffset - notesToOrder.length
+          : index + keyOffset - array.length
       ]
   );
   return orderedNotes;
