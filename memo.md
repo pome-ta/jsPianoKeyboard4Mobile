@@ -8,11 +8,19 @@
 `pointer` 関係でやってみるか
 
 
+`mouse_is_down` は、まだ使わない
+
 ## key size
 
 - [ ] `margin` の挙動がキモい
 - [ ] 整数サイズでいく？
 
+
+## その他
+
+[検索: getElement* と querySelector*](https://ja.javascript.info/searching-elements-dom#ref-528)
+
+やへぇ、`id` と変数被ってるのあるかも
 
 # 📝 2022/07/18
 

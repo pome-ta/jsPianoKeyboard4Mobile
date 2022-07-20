@@ -49,11 +49,11 @@ function orderNotes(notesToOrder) {
   const keyOffset = notesToOrder.indexOf(settings.startNote);
 
   const orderedNotes = notesToOrder.map(
-    (_, index, array) =>
-      array[
-        index + keyOffset < array.length
+    (_, index) =>
+      notesToOrder[
+        index + keyOffset < notesToOrder.length
           ? index + keyOffset
-          : index + keyOffset - array.length
+          : index + keyOffset - notesToOrder.length
       ]
   );
   return orderedNotes;
@@ -205,12 +205,72 @@ function addKeysToKeyboard(keyboard) {
  */
 function addListeners(keyboardElement) {
   keyboardElement.addEventListener('pointerdown', (event) => {
-    eventDown(event.target, this.keyDown);
+    eventDown(event.target);
   });
-
+  
+  
+  
+/*
+  keyboardElement.addEventListener('pointerenter', (event) => {
+    eventDown(event.target);
+  });
+*/
   keyboardElement.addEventListener('pointerup', (event) => {
-    eventUp(event.target, this.keyUp);
+    eventUp(event.target);
   });
+/*
+  keyboardElement.addEventListener('pointerout', (event) => {
+    eventUp(event.target);
+  });
+*/
+  keyboardElement.addEventListener('pointerleave', (event) => {
+    eventUp(event.target);
+  });
+  
+  
+  keyboardElement.addEventListener('touchmove', (event) => {
+    event.preventDefault();
+  });
+}
+
+/**
+ * Call user's Down event.
+ */
+function eventDown(target, callback) {
+  if (target.tagName.toLowerCase() === 'li') {
+    setActiveColor(target);
+    //callback(element.title, this.getFrequencyOfNote(element.title));
+  }
+}
+
+/**
+ * Call user's Up event.
+ */
+function eventUp(target, callback) {
+  if (target.tagName.toLowerCase() === 'li') {
+    revertActiveColor(target);
+  }
+}
+
+/**
+ * Lighten up man. Change the color of a key.
+ * @param  {element} el DOM element to change color of.
+ */
+function setActiveColor(el) {
+  // xxx: `if (el !== null || typeof el === undefined)` いる？
+  el.style.backgroundColor = settings.activeColor;
+}
+
+/**
+ * Revert key to original colour.
+ * @param  {element} el DOM element to change colour of.
+ */
+function revertActiveColor(el) {
+  // xxx: `if (el !== null)` いる？
+  el.style.backgroundColor =
+    el.getAttribute('data-note-type') === 'white'
+      ? settings.whiteKeyColor
+      : settings.blackKeyColor;
 }
 
 export function miniKey(element, userSettings = {}) {
@@ -219,5 +279,5 @@ export function miniKey(element, userSettings = {}) {
   baseSettings.height = element.offsetHeight;
   settings = { ...baseSettings, ...userSettings };
   createKeyboard(element);
-  //addListeners(element);
+  addListeners(element);
 }
