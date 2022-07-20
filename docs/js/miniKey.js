@@ -204,44 +204,13 @@ function addKeysToKeyboard(keyboard) {
  * @param {element} keyboardElement
  */
 function addListeners(keyboardElement) {
-  // Mouse is clicked down on keyboard element.
-  keyboardElement.addEventListener('mousedown', (event) => {
-    this.mouseDown(event.target, this.keyDown);
+  keyboardElement.addEventListener('pointerdown', (event) => {
+    eventDown(event.target, this.keyDown);
   });
 
-  // Mouse is released from keyboard element.
-  keyboardElement.addEventListener('mouseup', (event) => {
-    this.mouseUp(event.target, this.keyUp);
+  keyboardElement.addEventListener('pointerup', (event) => {
+    eventUp(event.target, this.keyUp);
   });
-
-  // Mouse is moved over keyboard element.
-  keyboardElement.addEventListener('mouseover', (event) => {
-    this.mouseOver(event.target, this.keyDown);
-  });
-
-  // Mouse is moved out of keyvoard element.
-  keyboardElement.addEventListener('mouseout', (event) => {
-    this.mouseOut(event.target, this.keyUp);
-  });
-
-  // Device supports touch events.
-  if ('ontouchstart' in document.documentElement) {
-    keyboardElement.addEventListener('touchstart', (event) => {
-      this.mouseDown(event.target, this.keyDown);
-    });
-
-    keyboardElement.addEventListener('touchend', (event) => {
-      this.mouseUp(event.target, this.keyUp);
-    });
-
-    keyboardElement.addEventListener('touchleave', (event) => {
-      this.mouseOut(event.target, this.keyUp);
-    });
-
-    keyboardElement.addEventListener('touchcancel', (event) => {
-      this.mouseOut(event.target, this.keyUp);
-    });
-  }
 }
 
 export function miniKey(element, userSettings = {}) {
