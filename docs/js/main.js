@@ -12,7 +12,7 @@ document.body.appendChild(synth);
 
 const keyboardWidth = document.querySelector('.synth').clientWidth;
 
-const oct = 3;
+const oct = 2;
 const start = 'A';
 const mySettings = {
   id: 'keyboard',
@@ -33,7 +33,7 @@ const mySettings = {
 
 const miniSettings = {
   width: `${keyboardWidth}`,
-  height: 160,
+  height: 128,
   startNote: start,
   keyOctave: oct,
 };
@@ -87,4 +87,3 @@ keyboard.keyUp = (note, frequency) => {
   }
   nodes = newNodes;
 };
-
