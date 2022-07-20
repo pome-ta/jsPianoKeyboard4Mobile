@@ -2,8 +2,6 @@
 
 import { QwertyHancock } from './esmQwertyHancock.js';
 
-
-
 const synth = document.createElement('div');
 const keyboardDiv = document.createElement('div');
 keyboardDiv.id = 'keyboard';
@@ -14,24 +12,30 @@ document.body.appendChild(synth);
 
 const keyboardWidth = document.querySelector('.synth').clientWidth;
 
-import { miniKey } from './miniKey.js';
-miniKey(keyboardDiv);
-
+const oct = 3;
+const start = 'A';
 const mySettings = {
   id: 'keyboard',
   width: `${keyboardWidth}`,
   // width: 200,
   height: 128,
-  startNote: 'A3',
+  startNote: `${start}3`,
   margin: 'auto',
   whiteNotesColour: '#fff',
   blackNotesColour: '#000',
   borderColour: '#000',
   activeColour: 'maroon',
-  octaves: 3,
+  octaves: oct,
   musicalTyping: false,
   //musicalTyping: true,
   //keyboardLayout: 'ja',
+};
+
+const miniSettings = {
+  width: `${keyboardWidth}`,
+  height: 160,
+  startNote: start,
+  keyOctave: oct,
 };
 
 let keyboard;
@@ -39,6 +43,11 @@ let keyboard;
 keyboard = new QwertyHancock(mySettings);
 //keyboard.keyOctaveUp()
 // console.log(keyboardDiv.offsetWidth);
+import { miniKey } from './miniKey.js';
+const miniKeyDiv = document.createElement('div');
+document.body.append(miniKeyDiv);
+
+const miniKeyboard = miniKey(miniKeyDiv, miniSettings);
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const context = new AudioContext();
