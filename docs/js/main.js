@@ -14,8 +14,8 @@ document.body.appendChild(synth);
 
 const keyboardWidth = document.querySelector('.synth').clientWidth;
 
-//import { miniKey } from './miniKey.js';
-//miniKey(keyboardDiv);
+import { miniKey } from './miniKey.js';
+miniKey(keyboardDiv);
 
 const mySettings = {
   id: 'keyboard',
