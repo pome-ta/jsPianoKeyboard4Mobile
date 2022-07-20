@@ -34,6 +34,7 @@ function createKeyboard(container) {
   // setKeyPressOffset(keyboard.whiteNotes);
   styleKeyboard(keyboard);
   addKeysToKeyboard(keyboard);
+  
   keyboard.container.appendChild(keyboard.el);
 
   return keyboard;
@@ -45,15 +46,14 @@ function createKeyboard(container) {
  * @return {array} orderedNotes Ordered notes.
  */
 function orderNotes(notesToOrder) {
-  const orderLength = notesToOrder.length;
   const keyOffset = notesToOrder.indexOf(settings.startNote);
 
   const orderedNotes = notesToOrder.map(
     (_, index, array) =>
       array[
-        index + keyOffset < orderLength
+        index + keyOffset < notesToOrder.length
           ? index + keyOffset
-          : index + keyOffset - orderLength
+          : index + keyOffset - notesToOrder.length
       ]
   );
   return orderedNotes;
@@ -133,6 +133,7 @@ function styleKey(key) {
   key.el.style.display = 'inline-block';
   key.el.style['-webkit-user-select'] = 'none';
   key.el.style.boxSizing = 'border-box';
+  key.el.style.border = `1px solid ${settings.borderColor}`;
 
   key.color === 'white' ? styleWhiteKey(key) : styleBlackKey(key);
 }
@@ -143,8 +144,6 @@ function styleKey(key) {
  */
 function styleWhiteKey(key) {
   key.el.style.backgroundColor = settings.whiteKeyColor;
-  key.el.style.border = `1px solid ${settings.borderColor}`;
-  // key.el.style.borderRight = 0;
   key.el.style.height = `${settings.height}px`;
   key.el.style.width = `${key.width}px`;
   key.el.style.borderRadius = '0 0 0.5rem 0.5rem';
@@ -158,17 +157,15 @@ function styleWhiteKey(key) {
  */
 function styleBlackKey(key) {
   const whiteKeyWidth = getWhiteKeyWidth(getTotalWhiteLength());
-  const blackKeyWidth = whiteKeyWidth / 2;
   const clientLeft = whiteKeyWidth * key.noteNumber + 1 + whiteKeyWidth;
-  const offsetLeft = blackKeyWidth / 2 + 1;
+  const offsetLeft = key.width / 2 + 1;
 
   key.el.style.backgroundColor = settings.blackKeyColor;
-  key.el.style.border = `1px solid ${settings.borderColor}`;
   key.el.style.position = 'absolute';
 
   key.el.style.left = `${clientLeft - offsetLeft}px`;
 
-  key.el.style.width = `${blackKeyWidth}px`;
+  key.el.style.width = `${key.width}px`;
   key.el.style.height = `${settings.height / 1.5}px`;
   key.el.style.borderRadius = '0 0 0.5rem 0.5rem';
   key.el.style.zIndex = '2';

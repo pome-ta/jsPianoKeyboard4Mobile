@@ -236,7 +236,7 @@ export class QwertyHancock {
     key.el.id = key.id;
     key.el.title = key.id;
     key.el.setAttribute('data-note-type', key.colour);
-console.log(key.noteNumber)
+
     this.styleKey(key);
 
     return key;
