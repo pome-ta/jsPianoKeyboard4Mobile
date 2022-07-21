@@ -1,3 +1,5 @@
+//const noteIndex
+
 let settings = {};
 const baseSettings = {
   width: 480,
@@ -67,8 +69,8 @@ function createKeys(keyboard) {
   const keyWidth = getWhiteKeyWidth(totalWhiteLength);
 
   let octave = settings.keyOctave;
-  const keys = totalWhiteKeys.map((noteChar, noteNumber) => {
-    octave += noteChar === 'C' && noteNumber ? 1 : 0;
+  const keys = totalWhiteKeys.map((noteChar, noteIndex) => {
+    octave += noteChar === 'C' && noteIndex ? 1 : 0;
 
     let whiteKey, blackKey;
     whiteKey = createKey({
@@ -78,10 +80,10 @@ function createKeys(keyboard) {
       sharp: false,
       width: keyWidth,
       id: `${noteChar}${octave}`,
-      noteNumber: noteNumber,
+      noteIndex: noteIndex,
     });
     if (
-      noteNumber !== totalWhiteLength - 1 &&
+      noteIndex !== totalWhiteLength - 1 &&
       keyboard.notesWithSharps.includes(noteChar)
     ) {
       blackKey = createKey({
@@ -91,7 +93,7 @@ function createKeys(keyboard) {
         sharp: true,
         width: keyWidth / 2,
         id: `${noteChar}#${octave}`,
-        noteNumber: noteNumber,
+        noteIndex: noteIndex,
       });
     }
     return [whiteKey.el, blackKey ? blackKey.el : null].filter((el) => el);
@@ -162,7 +164,7 @@ function styleWhiteKey(key) {
  */
 function styleBlackKey(key) {
   const whiteKeyWidth = getWhiteKeyWidth(getTotalWhiteLength());
-  const clientLeft = whiteKeyWidth * key.noteNumber + 1 + whiteKeyWidth;
+  const clientLeft = whiteKeyWidth * key.noteIndex + 1 + whiteKeyWidth;
   const offsetLeft = key.width / 2 + 1;
 
   key.el.style.backgroundColor = settings.blackKeyColor;
