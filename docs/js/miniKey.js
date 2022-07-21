@@ -204,17 +204,33 @@ function addKeysToKeyboard(keyboard) {
  * @param {element} keyboardElement
  */
 function addListeners(keyboardElement) {
+  console.log(keyboardElement.keys)
   //keyboardElement.addEventListener('pointerdown', (event) => {
   keyboardElement.addEventListener('touchstart', (event) => {
     eventDown(event.target);
   });
   
-
   //keyboardElement.addEventListener('pointerup', (event) => {
   keyboardElement.addEventListener('touchend', (event) => {
     eventUp(event.target);
   });
-  
+
+  keyboardElement.addEventListener('touchcancel', (event) => {
+    eventUp(event.target);
+  });
+
+  keyboardElement.addEventListener('touchenter', (event) => {
+    eventDown(event.target);
+  });
+
+  keyboardElement.addEventListener('touchleave', (event) => {
+    eventUp(event.target);
+  });
+
+
+
+
+
   //keyboardElement.addEventListener('pointermove', (event) => {
   keyboardElement.addEventListener('touchmove', (event) => {
     event.preventDefault();
