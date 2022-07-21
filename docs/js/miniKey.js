@@ -1,29 +1,3 @@
-// A4 = 69, C-1 = 0
-const noteNumber = [
-  'C',
-  'C#',
-  'D',
-  'D#',
-  'E',
-  'F',
-  'F#',
-  'G',
-  'G#',
-  'A',
-  'A#',
-  'B',
-];
-
-function getFrequencyOfNote(note, octave) {
-  const tone = noteNumber.indexOf(note);
-  const midiOctave = octave - 1;
-  
-  return
-}
-
-
-
-
 let settings = {};
 const baseSettings = {
   width: 480,
@@ -41,6 +15,21 @@ const baseSettings = {
   borderColor: 'coral',
   activeColor: 'maroon',
 };
+
+const noteNumber = [
+  'C',
+  'C#',
+  'D',
+  'D#',
+  'E',
+  'F',
+  'F#',
+  'G',
+  'G#',
+  'A',
+  'A#',
+  'B',
+];
 
 const scaleNotes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
 const scaleSharps = ['C', 'D', 'F', 'G', 'A'];
@@ -149,6 +138,10 @@ function createKey(key) {
   key.el.title = key.id;
   key.el.classList.add('pianoKeys');
   key.el.setAttribute('data-note-type', key.color);
+  key.el.setAttribute(
+    'data-frequency-value',
+    getFrequency(key.note, key.octave)
+  );
   styleKey(key);
 
   return key;
@@ -345,6 +338,19 @@ function revertActiveColor(el) {
     el.getAttribute('data-note-type') === 'white'
       ? settings.whiteKeyColor
       : settings.blackKeyColor;
+}
+
+function getMidiNote(note, octave) {
+  const tone = noteNumber.indexOf(note);
+  // C-1 = 0
+  const midiOctave = octave + 1;
+  return midiOctave * 12 + tone;
+}
+
+function getFrequency(note, octave) {
+  const midiNote = getMidiNote(note, octave);
+  // A4 = 69 = 440.0Hz
+  return 440.0 * Math.pow(2.0, (midiNote - 69) / 12);
 }
 
 export function miniKey(element, userSettings = {}) {
