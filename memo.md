@@ -1,26 +1,43 @@
-# 📝 2022/07/20
+# 📝 2022/07/21
 
+## 挙動変更
+
+書き換える挙動が必要だから
+
+- `build`
+- `update`
+
+的な処理が必要かな？
+
+## frequency
+
+わかりやすい計算方法を、、、
+
+[MIDI ノート番号と音名、周波数の対応表](https://www.asahi-net.or.jp/~hb9t-ktd/music/Japan/Research/DTM/freq_map.html)
+
+A3 = 440Hz
+で、基準 69 かしら？
+
+# 📝 2022/07/20
 
 ## event
 
-[イベントハンドラー | JavaScript逆引き | Webサイト制作支援 | ShanaBrian Website](https://shanabrian.com/web/javascript/event-handler.php)
+[イベントハンドラー | JavaScript 逆引き | Web サイト制作支援 | ShanaBrian Website](https://shanabrian.com/web/javascript/event-handler.php)
 
 `pointer` 関係でやってみるか
 
-
 `mouse_is_down` は、まだ使わない
-
 
 ### 移動関係
 
+~~うまく捕捉できてないから、個別に設定する？~~
 
-うまく捕捉できてないから、個別に設定する？
+個別でもダメぞ 😡
 
 ## key size
 
 - [ ] `margin` の挙動がキモい
 - [ ] 整数サイズでいく？
-
 
 ## その他
 
@@ -46,7 +63,7 @@
 
 `this.keyDown` `this.keyUp` 何も処理してなかった
 
-``` .js
+```.js
 /**
  * Qwerty Hancock constructor.
  * @param {object} settings Optional user settings.
@@ -87,7 +104,7 @@ var QwertyHancock = function (settings) {
 
 切ると、以下が解消できるのでは？
 
-> In ＜script＞ context, `this` is the window.
+> In ＜ script ＞ context, `this` is the window.
 > In node context (browserify), `this` is the node global.
 
 もしかしたら、テストとかで使う？
@@ -96,7 +113,7 @@ var QwertyHancock = function (settings) {
 
 文字列として`undefined` を処理した方がいいみたいだが
 
-``` .js
+```.js
 if (typeof hoge === undefined) {
   // だめ
 }
@@ -109,7 +126,7 @@ if (typeof hoge === 'undefined') {
 
 確かに、そうよな。といった感想
 
-[JavaScriptでtypeof x === 'undefined'を使わないで欲しい理由](https://www.ncaq.net/2018/06/16/16/44/31/)
+[JavaScript で typeof x === 'undefined'を使わないで欲しい理由](https://www.ncaq.net/2018/06/16/16/44/31/)
 
 ## `keyboardLayout` 設定
 
