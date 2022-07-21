@@ -1,4 +1,28 @@
-//const noteIndex
+// A4 = 69, C-1 = 0
+const noteNumber = [
+  'C',
+  'C#',
+  'D',
+  'D#',
+  'E',
+  'F',
+  'F#',
+  'G',
+  'G#',
+  'A',
+  'A#',
+  'B',
+];
+
+function getFrequencyOfNote(note, octave) {
+  const tone = noteNumber.indexOf(note);
+  const midiOctave = octave - 1;
+  
+  return
+}
+
+
+
 
 let settings = {};
 const baseSettings = {
@@ -77,7 +101,6 @@ function createKeys(keyboard) {
       color: 'white',
       octave: octave,
       note: noteChar,
-      sharp: false,
       width: keyWidth,
       id: `${noteChar}${octave}`,
       noteIndex: noteIndex,
@@ -89,8 +112,7 @@ function createKeys(keyboard) {
       blackKey = createKey({
         color: 'black',
         octave: octave,
-        note: noteChar,
-        sharp: true,
+        note: `${noteChar}#`,
         width: keyWidth / 2,
         id: `${noteChar}#${octave}`,
         noteIndex: noteIndex,
