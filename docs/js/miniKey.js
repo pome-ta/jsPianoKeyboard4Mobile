@@ -74,6 +74,8 @@ function createKeys(keyboard) {
     whiteKey = createKey({
       color: 'white',
       octave: octave,
+      note: noteChar,
+      sharp: false,
       width: keyWidth,
       id: `${noteChar}${octave}`,
       noteNumber: noteNumber,
@@ -85,6 +87,8 @@ function createKeys(keyboard) {
       blackKey = createKey({
         color: 'black',
         octave: octave,
+        note: noteChar,
+        sharp: true,
         width: keyWidth / 2,
         id: `${noteChar}#${octave}`,
         noteNumber: noteNumber,
@@ -119,6 +123,7 @@ function createKey(key) {
   key.el = document.createElement('li');
   key.el.id = key.id;
   key.el.title = key.id;
+  key.el.classList.add('pianoKeys');
   key.el.setAttribute('data-note-type', key.color);
   styleKey(key);
 
@@ -204,14 +209,50 @@ function addKeysToKeyboard(keyboard) {
  * @param {element} keyboardElement
  */
 function addListeners(keyboardElement) {
-  console.log(keyboardElement.keys)
-  //keyboardElement.addEventListener('pointerdown', (event) => {
-  keyboardElement.addEventListener('touchstart', (event) => {
+  keyboardElement.querySelectorAll('.pianoKeys').forEach((key) => {
+    // key.addEventListener('mousedown', (event) => {
+    //key.addEventListener('pointerdown', (event) => {
+    key.addEventListener('touchstart', (event) => {
+      eventDown(event);
+    });
+    // key.addEventListener('mouseup', (event) => {
+    //key.addEventListener('pointerup', (event) => {
+    key.addEventListener('touchend', (event) => {
+      eventUp(event);
+    });
+
+    // key.addEventListener('', (event) => {
+    //key.addEventListener('pointerenter', (event) => {
+    key.addEventListener('touchenter', (event) => {
+      //key.addEventListener('touchmove', (event) => {
+      eventEnter(event);
+    });
+
+    //  key.addEventListener('pointerenter', (event) => {
+    //key.addEventListener('pointerleave', (event) => {
+    key.addEventListener('touchleave', (event) => {
+      eventLeave(event);
+    });
+  });
+
+  /*
+  keyboardElement.addEventListener('pointerdown', (event) => {
+    // keyboardElement.addEventListener('touchstart', (event) => {
     eventDown(event.target);
   });
-  
-  //keyboardElement.addEventListener('pointerup', (event) => {
-  keyboardElement.addEventListener('touchend', (event) => {
+
+  keyboardElement.addEventListener('pointerup', (event) => {
+    // keyboardElement.addEventListener('touchend', (event) => {
+    eventUp(event.target);
+  });
+
+  keyboardElement.addEventListener('pointerenter', (event) => {
+    // keyboardElement.addEventListener('touchend', (event) => {
+    eventDown(event.target);
+  });
+
+  keyboardElement.addEventListener('pointerleave', (event) => {
+    // keyboardElement.addEventListener('touchend', (event) => {
     eventUp(event.target);
   });
 
@@ -226,12 +267,11 @@ function addListeners(keyboardElement) {
   keyboardElement.addEventListener('touchleave', (event) => {
     eventUp(event.target);
   });
-
-
-
-
-
   //keyboardElement.addEventListener('pointermove', (event) => {
+  keyboardElement.addEventListener('touchmove', (event) => {
+    event.preventDefault();
+  });
+  */
   keyboardElement.addEventListener('touchmove', (event) => {
     event.preventDefault();
   });
@@ -240,20 +280,26 @@ function addListeners(keyboardElement) {
 /**
  * Call user's Down event.
  */
-function eventDown(target, callback) {
-  if (target.tagName.toLowerCase() === 'li') {
-    setActiveColor(target);
-    //callback(element.title, this.getFrequencyOfNote(element.title));
-  }
+function eventDown(event, callback) {
+  setActiveColor(event.target);
+  //callback(element.title, this.getFrequencyOfNote(element.title));
 }
 
 /**
  * Call user's Up event.
  */
-function eventUp(target, callback) {
-  if (target.tagName.toLowerCase() === 'li') {
-    revertActiveColor(target);
-  }
+function eventUp(event, callback) {
+  revertActiveColor(event.target);
+}
+
+function eventEnter(event, callback) {
+  eventDown(event, callback);
+  //event.pressure ? eventDown(event, callback) : null;
+}
+
+function eventLeave(event, callback) {
+  eventUp(event, callback);
+  // event.pressure ? null : eventUp(event, callback);
 }
 
 /**
