@@ -34,6 +34,9 @@ A3 = 440Hz
 
 個別でもダメぞ 😡
 
+
+[javascript - JS: Touch equivalent for mouseenter - Stack Overflow](https://stackoverflow.com/questions/27908339/js-touch-equivalent-for-mouseenter?answertab=trending#tab-top)
+
 ## key size
 
 - [ ] `margin` の挙動がキモい
