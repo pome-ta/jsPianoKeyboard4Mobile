@@ -239,11 +239,11 @@ export class MiniKey {
       });
 
       key.addEventListener('pointerenter', (event) => {
-        this.eventDown(event);
+        this.eventDown(event, this.keyDown);
       });
 
       key.addEventListener('pointerleave', (event) => {
-        this.eventUp(event);
+        this.eventUp(event, this.keyUp);
       });
     });
   }
@@ -253,6 +253,9 @@ export class MiniKey {
    */
   eventDown(event, callback) {
     this.setActiveColor(event.target);
+    const noteName = event.target.title;
+    const frequency = event.target.getAttribute('data-frequency-value');
+    callback(noteName, frequency);
     //callback(element.title, this.getFrequencyOfNote(element.title));
   }
 
@@ -261,6 +264,7 @@ export class MiniKey {
    */
   eventUp(event, callback) {
     this.revertActiveColor(event.target);
+    callback(event.target.title);
   }
 
   /**
@@ -296,4 +300,6 @@ export class MiniKey {
     // A4 = 69 = 440.0Hz
     return 440.0 * Math.pow(2.0, (midiNote - 69) / 12);
   }
+  keyDown() {}
+  keyUp() {}
 }

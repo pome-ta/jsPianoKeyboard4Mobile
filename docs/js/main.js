@@ -41,19 +41,38 @@ const miniSettings = {
 let keyboard;
 //keyboard = new window.QwertyHancock(mySettings);
 keyboard = new QwertyHancock(mySettings);
-console.log(keyboard);
 //keyboard.keyOctaveUp()
 // console.log(keyboardDiv.offsetWidth);
-
-// import { miniKey } from './miniKey.js';
-import { MiniKey } from './miniKeyClass.js';
 
 const miniKeyDiv = document.createElement('div');
 document.body.append(miniKeyDiv);
 
+// import { miniKey } from './miniKey.js';
+import { MiniKey } from './miniKeyClass.js';
+
 const miniKeyboard = new MiniKey(miniKeyDiv, miniSettings);
 
-console.log(miniKeyboard);
+const callNotes = [];
+miniKeyboard.keyDown = (noteName, frequency) => {
+  const oscillator = context.createOscillator();
+  oscillator.type = 'square';
+  oscillator.frequency.value = frequency;
+  oscillator.connect(masterGain);
+  oscillator.start(0);
+  const pushNote = { noteName: noteName, osc: oscillator };
+  callNotes.push(pushNote);
+  // callNotes.push({ noteName: noteName, osc: oscillator });
+};
+
+miniKeyboard.keyUp = (noteName) => {
+  callNotes.forEach((note, index) => {
+    if (note.noteName === noteName) {
+      note.osc.stop(0);
+      note.osc.disconnect();
+      callNotes.splice(index);
+    }
+  });
+};
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const context = new AudioContext();
