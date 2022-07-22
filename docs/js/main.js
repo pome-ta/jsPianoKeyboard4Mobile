@@ -41,14 +41,19 @@ const miniSettings = {
 let keyboard;
 //keyboard = new window.QwertyHancock(mySettings);
 keyboard = new QwertyHancock(mySettings);
+console.log(keyboard);
 //keyboard.keyOctaveUp()
 // console.log(keyboardDiv.offsetWidth);
-import { miniKey } from './miniKey.js';
+
+// import { miniKey } from './miniKey.js';
+import { MiniKey } from './miniKeyClass.js';
+
 const miniKeyDiv = document.createElement('div');
 document.body.append(miniKeyDiv);
 
-const miniKeyboard = miniKey(miniKeyDiv, miniSettings);
-miniKeyboard.keyDown()
+const miniKeyboard = new MiniKey(miniKeyDiv, miniSettings);
+
+console.log(miniKeyboard);
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const context = new AudioContext();

@@ -2,7 +2,17 @@
 
 ## `callback` を追う
 
-いまいち、js の関数の挙動を理解できてない
+いまいち、js の関数の挙動を理解できてないな。。。
+
+どうやって、関数を生やして`addEventListener` へ繋げるか
+
+`pointerType: "mouse"`
+
+## event 処理
+
+スマホと、PCとで挙動が違うのが面倒なので（touch 判定）
+
+スマホ基準として、後程処理をする
 
 # 📝 2022/07/21
 
@@ -39,7 +49,6 @@ A3 = 440Hz
 ~~うまく捕捉できてないから、個別に設定する？~~
 
 個別でもダメぞ 😡
-
 
 [javascript - JS: Touch equivalent for mouseenter - Stack Overflow](https://stackoverflow.com/questions/27908339/js-touch-equivalent-for-mouseenter?answertab=trending#tab-top)
 

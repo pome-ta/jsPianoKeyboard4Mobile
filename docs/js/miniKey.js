@@ -224,7 +224,6 @@ function addKeysToKeyboard(keyboard) {
  * @param {element} keyboardElement
  */
 function addListeners(keyboardElement) {
-
   keyboardElement.addEventListener('touchmove', (event) => {
     event.preventDefault();
   });
@@ -234,7 +233,7 @@ function addListeners(keyboardElement) {
     });
 
     key.addEventListener('pointerenter', (event) => {
-      eventDown(event);
+      eventDown(event, keyDownCallback);
     });
 
     key.addEventListener('pointerleave', (event) => {
@@ -248,6 +247,7 @@ function addListeners(keyboardElement) {
  */
 function eventDown(event, callback) {
   setActiveColor(event.target);
+  callback();
   //callback(element.title, this.getFrequencyOfNote(element.title));
 }
 
@@ -256,6 +256,15 @@ function eventDown(event, callback) {
  */
 function eventUp(event, callback) {
   revertActiveColor(event.target);
+}
+
+// res ?
+function eventEnter(event, callback) {
+  event.pressure ? null : eventDown(event, callback);
+}
+
+function eventLeave(event, callback) {
+  event.pressure ? eventUp(event, callback) : null;
 }
 
 /**
@@ -292,6 +301,7 @@ function getFrequency(note, octave) {
   return 440.0 * Math.pow(2.0, (midiNote - 69) / 12);
 }
 
+let keyDownCallback = function () {};
 
 export function miniKey(element, userSettings = {}) {
   // xxx: margin やpadding 依存をどうやって処理するか
@@ -300,9 +310,5 @@ export function miniKey(element, userSettings = {}) {
   settings = { ...baseSettings, ...userSettings };
   createKeyboard(element);
   addListeners(element);
-  
-  //const keyDown = () => {};
-  //function keyDown(){}
-  let keyDown;
+  return { keyDown: keyDownCallback };
 }
-
