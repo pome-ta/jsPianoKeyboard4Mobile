@@ -353,6 +353,9 @@ function getFrequency(note, octave) {
   return 440.0 * Math.pow(2.0, (midiNote - 69) / 12);
 }
 
+//function
+
+
 export function miniKey(element, userSettings = {}) {
   // xxx: margin やpadding 依存をどうやって処理するか
   baseSettings.width = element.offsetWidth;
