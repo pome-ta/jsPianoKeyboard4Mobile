@@ -227,75 +227,27 @@ function addKeysToKeyboard(keyboard) {
  * @param {element} keyboardElement
  */
 function addListeners(keyboardElement) {
+  keyboardElement.addEventListener('touchmove', (event) => {
+    event.preventDefault();
+  });
   keyboardElement.querySelectorAll('.pianoKeys').forEach((key) => {
-    // key.addEventListener('mousedown', (event) => {
     key.addEventListener('pointerdown', (event) => {
-    //key.addEventListener('touchstart', (event) => {
       eventDown(event);
       key.releasePointerCapture(event.pointerId);
     });
-    // key.addEventListener('mouseup', (event) => {
+    
     key.addEventListener('pointerup', (event) => {
-    //key.addEventListener('touchend', (event) => {
       eventUp(event);
     });
 
-    // key.addEventListener('', (event) => {
     key.addEventListener('pointerenter', (event) => {
-    //key.addEventListener('touchenter', (event) => {
-      //key.addEventListener('touchmove', (event) => {
-      eventEnter(event);
+      eventDown(event);
     });
 
-    //  key.addEventListener('pointerenter', (event) => {
     key.addEventListener('pointerleave', (event) => {
-    //key.addEventListener('touchleave', (event) => {
-      eventLeave(event);
+      eventUp(event);
     });
   });
-
-  /*
-  keyboardElement.addEventListener('pointerdown', (event) => {
-    // keyboardElement.addEventListener('touchstart', (event) => {
-    eventDown(event.target);
-  });
-
-  keyboardElement.addEventListener('pointerup', (event) => {
-    // keyboardElement.addEventListener('touchend', (event) => {
-    eventUp(event.target);
-  });
-
-  keyboardElement.addEventListener('pointerenter', (event) => {
-    // keyboardElement.addEventListener('touchend', (event) => {
-    eventDown(event.target);
-  });
-
-  keyboardElement.addEventListener('pointerleave', (event) => {
-    // keyboardElement.addEventListener('touchend', (event) => {
-    eventUp(event.target);
-  });
-
-  keyboardElement.addEventListener('touchcancel', (event) => {
-    eventUp(event.target);
-  });
-
-  keyboardElement.addEventListener('touchenter', (event) => {
-    eventDown(event.target);
-  });
-
-  keyboardElement.addEventListener('touchleave', (event) => {
-    eventUp(event.target);
-  });
-  //keyboardElement.addEventListener('pointermove', (event) => {
-  keyboardElement.addEventListener('touchmove', (event) => {
-    event.preventDefault();
-  });
-  */
-  
-  keyboardElement.addEventListener('touchmove', (event) => {
-    event.preventDefault();
-  });
-  
 }
 
 /**
@@ -314,13 +266,13 @@ function eventUp(event, callback) {
 }
 
 function eventEnter(event, callback) {
-  eventDown(event, callback);
-  //event.pressure ? eventDown(event, callback) : null;
+  //eventDown(event, callback);
+  event.pressure ? eventDown(event, callback) : null;
 }
 
 function eventLeave(event, callback) {
-  eventUp(event, callback);
-  // event.pressure ? null : eventUp(event, callback);
+  //eventUp(event, callback);
+  event.pressure ? null : eventUp(event, callback);
 }
 
 /**
