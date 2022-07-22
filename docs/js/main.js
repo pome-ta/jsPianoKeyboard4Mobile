@@ -7,7 +7,7 @@ const keyboardDiv = document.createElement('div');
 keyboardDiv.id = 'keyboard';
 
 synth.classList.add('synth');
-//synth.appendChild(keyboardDiv);
+synth.appendChild(keyboardDiv);
 document.body.appendChild(synth);
 
 const keyboardWidth = document.querySelector('.synth').clientWidth;
@@ -33,14 +33,14 @@ const mySettings = {
 
 const miniSettings = {
   width: `${keyboardWidth}`,
-  height: 256,
+  height: 176,
   startNote: start,
   keyOctave: oct,
 };
 
 let keyboard;
 //keyboard = new window.QwertyHancock(mySettings);
-//keyboard = new QwertyHancock(mySettings);
+keyboard = new QwertyHancock(mySettings);
 //keyboard.keyOctaveUp()
 // console.log(keyboardDiv.offsetWidth);
 import { miniKey } from './miniKey.js';

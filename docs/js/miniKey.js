@@ -14,8 +14,7 @@ const baseSettings = {
   // borderColor: 'magenta',
   //borderColor: 'coral',
   borderColor: 'lightgray',
-  //activeColor: 'maroon',
-  activeColor: 'orange',
+  activeColor: 'maroon',
 };
 
 const noteNumber = [
