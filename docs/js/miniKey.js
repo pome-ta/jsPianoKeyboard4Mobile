@@ -10,9 +10,6 @@ const baseSettings = {
 
   whiteKeyColor: '#fffff8',
   blackKeyColor: '#232323',
-  // blackKeyColor: 'magenta',
-  // borderColor: 'magenta',
-  //borderColor: 'coral',
   borderColor: 'lightgray',
   activeColor: 'maroon',
 };
@@ -227,17 +224,13 @@ function addKeysToKeyboard(keyboard) {
  * @param {element} keyboardElement
  */
 function addListeners(keyboardElement) {
+
   keyboardElement.addEventListener('touchmove', (event) => {
     event.preventDefault();
   });
   keyboardElement.querySelectorAll('.pianoKeys').forEach((key) => {
     key.addEventListener('pointerdown', (event) => {
-      eventDown(event);
       key.releasePointerCapture(event.pointerId);
-    });
-    
-    key.addEventListener('pointerup', (event) => {
-      eventUp(event);
     });
 
     key.addEventListener('pointerenter', (event) => {
@@ -263,16 +256,6 @@ function eventDown(event, callback) {
  */
 function eventUp(event, callback) {
   revertActiveColor(event.target);
-}
-
-function eventEnter(event, callback) {
-  //eventDown(event, callback);
-  event.pressure ? eventDown(event, callback) : null;
-}
-
-function eventLeave(event, callback) {
-  //eventUp(event, callback);
-  event.pressure ? null : eventUp(event, callback);
 }
 
 /**
@@ -309,8 +292,6 @@ function getFrequency(note, octave) {
   return 440.0 * Math.pow(2.0, (midiNote - 69) / 12);
 }
 
-//function
-
 
 export function miniKey(element, userSettings = {}) {
   // xxx: margin やpadding 依存をどうやって処理するか
@@ -319,4 +300,9 @@ export function miniKey(element, userSettings = {}) {
   settings = { ...baseSettings, ...userSettings };
   createKeyboard(element);
   addListeners(element);
+  
+  //const keyDown = () => {};
+  //function keyDown(){}
+  let keyDown;
 }
+
