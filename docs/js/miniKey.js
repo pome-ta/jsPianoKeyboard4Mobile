@@ -12,8 +12,10 @@ const baseSettings = {
   blackKeyColor: '#232323',
   // blackKeyColor: 'magenta',
   // borderColor: 'magenta',
-  borderColor: 'coral',
-  activeColor: 'maroon',
+  //borderColor: 'coral',
+  borderColor: 'lightgray',
+  //activeColor: 'maroon',
+  activeColor: 'orange',
 };
 
 const noteNumber = [
@@ -228,26 +230,27 @@ function addKeysToKeyboard(keyboard) {
 function addListeners(keyboardElement) {
   keyboardElement.querySelectorAll('.pianoKeys').forEach((key) => {
     // key.addEventListener('mousedown', (event) => {
-    //key.addEventListener('pointerdown', (event) => {
-    key.addEventListener('touchstart', (event) => {
+    key.addEventListener('pointerdown', (event) => {
+    //key.addEventListener('touchstart', (event) => {
       eventDown(event);
+      key.releasePointerCapture(event.pointerId);
     });
     // key.addEventListener('mouseup', (event) => {
-    //key.addEventListener('pointerup', (event) => {
-    key.addEventListener('touchend', (event) => {
+    key.addEventListener('pointerup', (event) => {
+    //key.addEventListener('touchend', (event) => {
       eventUp(event);
     });
 
     // key.addEventListener('', (event) => {
-    //key.addEventListener('pointerenter', (event) => {
-    key.addEventListener('touchenter', (event) => {
+    key.addEventListener('pointerenter', (event) => {
+    //key.addEventListener('touchenter', (event) => {
       //key.addEventListener('touchmove', (event) => {
       eventEnter(event);
     });
 
     //  key.addEventListener('pointerenter', (event) => {
-    //key.addEventListener('pointerleave', (event) => {
-    key.addEventListener('touchleave', (event) => {
+    key.addEventListener('pointerleave', (event) => {
+    //key.addEventListener('touchleave', (event) => {
       eventLeave(event);
     });
   });
@@ -289,9 +292,11 @@ function addListeners(keyboardElement) {
     event.preventDefault();
   });
   */
+  
   keyboardElement.addEventListener('touchmove', (event) => {
     event.preventDefault();
   });
+  
 }
 
 /**
