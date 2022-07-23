@@ -33,10 +33,10 @@ export class MiniKey {
   constructor(element, user_settings = {}) {
     this.settings = this.initSettings(element, user_settings);
     this.totalWhiteLength = this.settings.keyOctave * this.scaleNotes.length;
-    this.createKeyboard(element);
+    this.keyboard = this.createKeyboard(element);
     this.addListeners(element);
   }
-  
+
   initSettings(element, user_settings) {
     this.baseSettings.width = element.offsetWidth;
     this.baseSettings.height = element.offsetHeight;
@@ -60,7 +60,6 @@ export class MiniKey {
     this.addKeysToKeyboard(keyboard);
 
     keyboard.container.appendChild(keyboard.el);
-
     return keyboard;
   }
 
@@ -114,7 +113,8 @@ export class MiniKey {
           noteIndex: noteIndex,
         });
       }
-      return [whiteKey.el, blackKey ? blackKey.el : null].filter((el) => el);
+      // return [whiteKey.el, blackKey ? blackKey.el : null].filter((el) => el);
+      return [whiteKey, blackKey ? blackKey : null].filter((key) => key);
     });
 
     return {
@@ -123,7 +123,6 @@ export class MiniKey {
     };
   }
 
-  
   /**
    * Calculate width of white key.
    * @return {number} Width of a single white key in pixels.
@@ -146,6 +145,8 @@ export class MiniKey {
       'data-frequency-value',
       this.getFrequency(key.note, key.octave)
     );
+    key.frequency = this.getFrequency(key.note, key.octave);
+    key.osc = null;
     this.styleKey(key);
 
     return key;
@@ -223,7 +224,7 @@ export class MiniKey {
   }
 
   addKeysToKeyboard(keyboard) {
-    keyboard.keys.forEach((key) => keyboard.el.appendChild(key));
+    keyboard.keys.forEach((key) => keyboard.el.appendChild(key.el));
   }
   /**
    * Add event listeners to keyboard.
@@ -233,17 +234,18 @@ export class MiniKey {
     keyboardElement.addEventListener('touchmove', (event) => {
       event.preventDefault();
     });
-    keyboardElement.querySelectorAll('.pianoKeys').forEach((key) => {
-      key.addEventListener('pointerdown', (event) => {
-        key.releasePointerCapture(event.pointerId);
+    // keyboardElement.querySelectorAll('.pianoKeys').forEach((key) => {
+    this.keyboard.keys.forEach((key) => {
+      key.el.addEventListener('pointerdown', (event) => {
+        key.el.releasePointerCapture(event.pointerId);
       });
 
-      key.addEventListener('pointerenter', (event) => {
-        this.eventDown(event, this.keyDown);
+      key.el.addEventListener('pointerenter', (event) => {
+        this.eventDown(event, key, this.keyDown);
       });
 
-      key.addEventListener('pointerleave', (event) => {
-        this.eventUp(event, this.keyUp);
+      key.el.addEventListener('pointerleave', (event) => {
+        this.eventUp(event, key, this.keyUp);
       });
     });
   }
@@ -251,20 +253,22 @@ export class MiniKey {
   /**
    * Call user's Down event.
    */
-  eventDown(event, callback) {
-    this.setActiveColor(event.target);
+  eventDown(event, key, callback) {
+    // this.setActiveColor(event.target);
+    this.setActiveColor(key.el);
     const noteName = event.target.title;
     const frequency = event.target.getAttribute('data-frequency-value');
-    callback(noteName, frequency);
+    callback(key);
+    // callback(noteName, key, frequency);
     //callback(element.title, this.getFrequencyOfNote(element.title));
   }
 
   /**
    * Call user's Up event.
    */
-  eventUp(event, callback) {
+  eventUp(event, key, callback) {
     this.revertActiveColor(event.target);
-    callback(event.target.title);
+    callback(key);
   }
 
   /**
@@ -302,7 +306,10 @@ export class MiniKey {
   }
   keyDown() {}
   keyUp() {}
-  pushNote() {
-    
+  pushNote(key, osc) {
+    key.osc = osc;
+  }
+  popNote(key) {
+    return key.ocs;
   }
 }

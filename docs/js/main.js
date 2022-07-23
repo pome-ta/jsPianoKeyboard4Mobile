@@ -51,28 +51,45 @@ document.body.append(miniKeyDiv);
 import { MiniKey } from './miniKeyClass.js';
 
 const miniKeyboard = new MiniKey(miniKeyDiv, miniSettings);
+console.log(miniKeyboard);
 
-const callNotes = [];
-miniKeyboard.keyDown = (noteName, frequency) => {
+miniKeyboard.keyDown = (key) => {
   const oscillator = context.createOscillator();
   oscillator.type = 'square';
-  oscillator.frequency.value = frequency;
+  oscillator.frequency.value = key.frequency;
   oscillator.connect(masterGain);
   oscillator.start(0);
-  
-  callNotes.push({ noteName: noteName, osc: oscillator });
-  
+  key.osc = oscillator;
 };
 
-miniKeyboard.keyUp = (noteName) => {
-  callNotes.forEach((note, index) => {
-    if (note.noteName === noteName) {
-      note.osc.stop(0);
-      note.osc.disconnect();
-      callNotes.splice(index);
-    }
-  });
+miniKeyboard.keyUp = (key) => {
+  key.osc.stop(0);
+  key.osc.disconnect();
+  key.osc = null;
 };
+
+// const callNotes = [];
+// miniKeyboard.keyDown = (noteName, key, frequency) => {
+//   const oscillator = context.createOscillator();
+//   oscillator.type = 'square';
+//   oscillator.frequency.value = frequency;
+//   oscillator.connect(masterGain);
+//   oscillator.start(0);
+//   key.osc = oscillator;
+//   console.log(key);
+
+//   callNotes.push({ noteName: noteName, osc: oscillator });
+// };
+
+// miniKeyboard.keyUp = (noteName) => {
+//   callNotes.forEach((note, index) => {
+//     if (note.noteName === noteName) {
+//       note.osc.stop(0);
+//       note.osc.disconnect();
+//       callNotes.splice(index);
+//     }
+//   });
+// };
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const context = new AudioContext();
