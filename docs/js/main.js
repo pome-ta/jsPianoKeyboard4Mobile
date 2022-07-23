@@ -63,9 +63,11 @@ miniKeyboard.keyDown = (key) => {
 };
 
 miniKeyboard.keyUp = (key) => {
+  if (key.osc) {
   key.osc.stop(0);
   key.osc.disconnect();
   key.osc = null;
+  }
 };
 
 // const callNotes = [];
