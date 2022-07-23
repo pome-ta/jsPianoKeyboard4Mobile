@@ -59,9 +59,9 @@ miniKeyboard.keyDown = (noteName, frequency) => {
   oscillator.frequency.value = frequency;
   oscillator.connect(masterGain);
   oscillator.start(0);
-  const pushNote = { noteName: noteName, osc: oscillator };
-  callNotes.push(pushNote);
-  // callNotes.push({ noteName: noteName, osc: oscillator });
+  
+  callNotes.push({ noteName: noteName, osc: oscillator });
+  
 };
 
 miniKeyboard.keyUp = (noteName) => {

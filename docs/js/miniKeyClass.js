@@ -31,11 +31,16 @@ export class MiniKey {
   scaleSharps = ['C', 'D', 'F', 'G', 'A'];
 
   constructor(element, user_settings = {}) {
-    this.baseSettings.width = element.offsetWidth;
-    this.baseSettings.height = element.offsetHeight;
-    this.settings = { ...this.baseSettings, ...user_settings };
+    this.settings = this.initSettings(element, user_settings);
+    this.totalWhiteLength = this.settings.keyOctave * this.scaleNotes.length;
     this.createKeyboard(element);
     this.addListeners(element);
+  }
+  
+  initSettings(element, user_settings) {
+    this.baseSettings.width = element.offsetWidth;
+    this.baseSettings.height = element.offsetHeight;
+    return { ...this.baseSettings, ...user_settings };
   }
 
   createKeyboard(container) {
@@ -78,11 +83,10 @@ export class MiniKey {
   }
 
   createKeys(keyboard) {
-    const totalWhiteLength = this.getTotalWhiteLength();
-    const totalWhiteKeys = [...new Array(totalWhiteLength)].map(
+    const totalWhiteKeys = [...new Array(this.totalWhiteLength)].map(
       (_, index) => keyboard.whiteNotes[index % this.scaleNotes.length]
     );
-    const keyWidth = this.getWhiteKeyWidth(totalWhiteLength);
+    const keyWidth = this.getWhiteKeyWidth(this.totalWhiteLength);
 
     let octave = this.settings.keyOctave;
     const keys = totalWhiteKeys.map((noteChar, noteIndex) => {
@@ -98,7 +102,7 @@ export class MiniKey {
         noteIndex: noteIndex,
       });
       if (
-        noteIndex !== totalWhiteLength - 1 &&
+        noteIndex !== this.totalWhiteLength - 1 &&
         keyboard.notesWithSharps.includes(noteChar)
       ) {
         blackKey = this.createKey({
@@ -115,15 +119,11 @@ export class MiniKey {
 
     return {
       keys: keys.flat(),
-      totalWhiteLength: totalWhiteLength,
+      totalWhiteLength: this.totalWhiteLength,
     };
   }
 
-  // 変数化してもいいかも
-  getTotalWhiteLength() {
-    return this.settings.keyOctave * this.scaleNotes.length;
-  }
-
+  
   /**
    * Calculate width of white key.
    * @return {number} Width of a single white key in pixels.
@@ -182,7 +182,7 @@ export class MiniKey {
    * @param  {element} el Black key DOM element.
    */
   styleBlackKey(key) {
-    const whiteKeyWidth = this.getWhiteKeyWidth(this.getTotalWhiteLength());
+    const whiteKeyWidth = this.getWhiteKeyWidth(this.totalWhiteLength);
     const clientLeft = whiteKeyWidth * key.noteIndex + 1 + whiteKeyWidth;
     const offsetLeft = key.width / 2 + 1;
 
@@ -302,4 +302,7 @@ export class MiniKey {
   }
   keyDown() {}
   keyUp() {}
+  pushNote() {
+    
+  }
 }
