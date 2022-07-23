@@ -12,8 +12,8 @@ document.body.appendChild(synth);
 
 const keyboardWidth = document.querySelector('.synth').clientWidth;
 
-const oct = 4;
-const start = 'A3';
+const oct = 1;
+const start = 'C3';
 const mySettings = {
   id: 'keyboard',
   width: `${keyboardWidth}`,

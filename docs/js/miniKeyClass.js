@@ -162,10 +162,7 @@ export class MiniKey {
     key.el.title = key.id;
     key.el.classList.add('pianoKeys');
     key.el.setAttribute('data-note-type', key.color);
-    key.el.setAttribute(
-      'data-frequency-value',
-      this.getFrequency(key.note, key.octave)
-    );
+    
     key.frequency = this.getFrequency(key.note, key.octave);
     key.osc = null;
     this.styleKey(key);
