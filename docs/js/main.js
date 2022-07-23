@@ -12,14 +12,14 @@ document.body.appendChild(synth);
 
 const keyboardWidth = document.querySelector('.synth').clientWidth;
 
-const oct = 2;
-const start = 'A';
+const oct = 4;
+const start = 'A3';
 const mySettings = {
   id: 'keyboard',
   width: `${keyboardWidth}`,
   // width: 200,
   height: 128,
-  startNote: `${start}3`,
+  startNote: start,
   margin: 'auto',
   whiteNotesColour: '#fff',
   blackNotesColour: '#000',
@@ -34,7 +34,7 @@ const mySettings = {
 const miniSettings = {
   width: `${keyboardWidth}`,
   height: 176,
-  startNote: start,
+  start: start,
   keyOctave: oct,
 };
 
@@ -51,7 +51,8 @@ document.body.append(miniKeyDiv);
 import { MiniKey } from './miniKeyClass.js';
 
 const miniKeyboard = new MiniKey(miniKeyDiv, miniSettings);
-console.log(miniKeyboard);
+
+// console.log(miniKeyboard);
 
 miniKeyboard.keyDown = (key) => {
   const oscillator = context.createOscillator();
@@ -64,9 +65,9 @@ miniKeyboard.keyDown = (key) => {
 
 miniKeyboard.keyUp = (key) => {
   if (key.osc) {
-  key.osc.stop(0);
-  key.osc.disconnect();
-  key.osc = null;
+    key.osc.stop(0);
+    key.osc.disconnect();
+    key.osc = null;
   }
 };
 

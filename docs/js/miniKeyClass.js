@@ -5,7 +5,9 @@ export class MiniKey {
     // xxx: いらないかも
     margin: 'auto',
 
+    start: 'A3',
     startNote: 'A',
+    startOctave: 3,
     keyOctave: 2,
 
     whiteKeyColor: '#fffff8',
@@ -31,15 +33,34 @@ export class MiniKey {
   scaleSharps = ['C', 'D', 'F', 'G', 'A'];
 
   constructor(element, user_settings = {}) {
+    this.init(element, user_settings);
+  }
+
+  init(element, user_settings) {
     this.settings = this.initSettings(element, user_settings);
     this.totalWhiteLength = this.settings.keyOctave * this.scaleNotes.length;
     this.keyboard = this.createKeyboard(element);
+
+    this.keyDown = () => {};
+    this.keyUp = () => {};
     this.addListeners(element);
   }
 
   initSettings(element, user_settings) {
     this.baseSettings.width = element.offsetWidth;
     this.baseSettings.height = element.offsetHeight;
+    const [baseStartNote, baseStartOctave] =
+      this.baseSettings.start.split(/(?=\d)/g);
+    this.baseSettings.startNote = baseStartNote;
+    this.baseSettings.startOctave = parseInt(baseStartOctave);
+
+    // `start` の値が強い（`startNote`, `startOctave` よりも）
+    const [startNote, startOctave] = user_settings.start
+      ? user_settings.start.split(/[#]|(?=\d)/g) // 負の数値には対応していない
+      : ['A', '3'];
+    user_settings.startNote = startNote;
+    user_settings.startOctave = parseInt(startOctave);
+
     return { ...this.baseSettings, ...user_settings };
   }
 
@@ -87,7 +108,7 @@ export class MiniKey {
     );
     const keyWidth = this.getWhiteKeyWidth(this.totalWhiteLength);
 
-    let octave = this.settings.keyOctave;
+    let octave = this.settings.startOctave;
     const keys = totalWhiteKeys.map((noteChar, noteIndex) => {
       octave += noteChar === 'C' && noteIndex ? 1 : 0;
 
@@ -254,13 +275,9 @@ export class MiniKey {
    * Call user's Down event.
    */
   eventDown(event, key, callback) {
-    // this.setActiveColor(event.target);
-    this.setActiveColor(key.el);
-    const noteName = event.target.title;
-    const frequency = event.target.getAttribute('data-frequency-value');
+    this.setActiveColor(event.target);
+    // this.setActiveColor(key.el);
     callback(key);
-    // callback(noteName, key, frequency);
-    //callback(element.title, this.getFrequencyOfNote(element.title));
   }
 
   /**
@@ -303,13 +320,5 @@ export class MiniKey {
     const midiNote = this.getMidiNote(note, octave);
     // A4 = 69 = 440.0Hz
     return 440.0 * Math.pow(2.0, (midiNote - 69) / 12);
-  }
-  keyDown() {}
-  keyUp() {}
-  pushNote(key, osc) {
-    key.osc = osc;
-  }
-  popNote(key) {
-    return key.ocs;
   }
 }
