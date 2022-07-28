@@ -2,6 +2,11 @@
 
 import { MiniKey } from './miniKeyClass.js';
 
+
+let miniKeyboard;
+
+const setupDOM = () => {
+
 const miniKeyDiv = document.createElement('div');
 document.body.append(miniKeyDiv);
 
@@ -17,7 +22,9 @@ const miniSettings = {
   keyOctave: oct,
 };
 
-const miniKeyboard = new MiniKey(miniKeyDiv, miniSettings);
+miniKeyboard = new MiniKey(miniKeyDiv, miniSettings);
+}
+setupDOM();
 
 miniKeyboard.keyDown = (key) => {
   const oscillator = context.createOscillator();
