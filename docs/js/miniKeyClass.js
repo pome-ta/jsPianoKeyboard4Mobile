@@ -15,6 +15,7 @@ export class MiniKey {
     borderColor: 'lightgray',
     activeColor: 'maroon',
   };
+
   noteNumber = [
     'C',
     'C#',
@@ -162,7 +163,7 @@ export class MiniKey {
     key.el.title = key.id;
     key.el.classList.add('pianoKeys');
     key.el.setAttribute('data-note-type', key.color);
-    
+
     key.frequency = this.getFrequency(key.note, key.octave);
     key.osc = null;
     this.styleKey(key);

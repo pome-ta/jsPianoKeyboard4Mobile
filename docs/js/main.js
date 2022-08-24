@@ -2,28 +2,26 @@
 
 import { MiniKey } from './miniKeyClass.js';
 
-
 let miniKeyboard;
 
 const setupDOM = () => {
+  const miniKeyDiv = document.createElement('div');
+  document.body.append(miniKeyDiv);
 
-const miniKeyDiv = document.createElement('div');
-document.body.append(miniKeyDiv);
+  const keyboardWidth = miniKeyDiv.clientWidth;
+  console.log(keyboardWidth);
 
-const keyboardWidth = miniKeyDiv.clientWidth;
-console.log(keyboardWidth);
+  const oct = 1;
+  const start = 'C3';
+  const miniSettings = {
+    width: `${keyboardWidth}`,
+    height: 176,
+    start: start,
+    keyOctave: oct,
+  };
 
-const oct = 1;
-const start = 'C3';
-const miniSettings = {
-  width: `${keyboardWidth}`,
-  height: 176,
-  start: start,
-  keyOctave: oct,
+  miniKeyboard = new MiniKey(miniKeyDiv, miniSettings);
 };
-
-miniKeyboard = new MiniKey(miniKeyDiv, miniSettings);
-}
 setupDOM();
 
 miniKeyboard.keyDown = (key) => {
